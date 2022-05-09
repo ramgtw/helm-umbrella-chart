@@ -1,0 +1,4 @@
+openmrs:
+  enabled: true
+bahmni-web:
+  enabled: true
