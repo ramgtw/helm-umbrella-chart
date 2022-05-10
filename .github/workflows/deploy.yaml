@@ -1,0 +1,16 @@
+name: Deploy to dev environment
+
+on:
+  push:
+    branches: [ main, BAH-1711 ]
+  workflow_dispatch:  
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Helm Dependency Update
+        run: helm dependency update
