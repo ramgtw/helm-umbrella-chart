@@ -14,3 +14,16 @@ jobs:
         uses: actions/checkout@v2
       - name: Helm Dependency Update
         run: helm dependency update
+      - name: Merge Values
+        run: |
+          yq eval-all '. as $item ireduce ({}; . * $item )' \
+          values/dev.yaml \
+          values/openmrs/dev.yaml \
+          values/bahmni-web/dev.yaml \
+          > values.yaml
+      - run: cat values.yaml
+#      - name: Helm Upgrade
+#        run: |
+#          helm upgrade --install bahmni-dev \
+
+
