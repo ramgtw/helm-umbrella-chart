@@ -1,0 +1,43 @@
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  # name: bahmni-aws-ingress-class
+  name: bahmni-nginx-ingress-class
+  annotations:
+    ingressclass.kubernetes.io/is-default-class: 'true'
+spec:
+  # controller: ingress.k8s.aws/alb
+  controller: k8s.io/ingress-nginx
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bahmni-ingress
+  labels:
+    environment: {{ .Values.metadata.labels.environment }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          {{- if index .Values "bahmni-web" "enabled" }}
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bahmni-web
+                port:
+                  number: 8091
+          {{- end }}
+
+          {{- if .Values.openmrs.enabled }}
+          - path: /openmrs
+            pathType: Prefix
+            backend:
+              service:
+                name: openmrs
+                port:
+                  number: 8080
+          {{- end }}
