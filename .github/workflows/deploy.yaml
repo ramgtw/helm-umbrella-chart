@@ -2,13 +2,20 @@ name: Deploy to dev environment
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, BAH-1711 ]
   workflow_dispatch:  
 
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    outputs:
+      INGRESS_DNS: ${{ steps.get-ingress-dns.outputs.INGRESS_DNS }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.BAHMNI_AWS_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.BAHMNI_AWS_SECRET }}
+      AWS_DEFAULT_REGION: ${{ secrets.BAHMNI_AWS_REGION }}
+      CLUSTER_NAME: bahmni-cluster-dev
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -23,19 +30,33 @@ jobs:
           > values.yaml
       - name: Authorise Kubectl with EKS
         run: aws eks update-kubeconfig --name $CLUSTER_NAME
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.BAHMNI_AWS_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.BAHMNI_AWS_SECRET }}
-          AWS_DEFAULT_REGION: ${{ secrets.BAHMNI_AWS_REGION }}
-          CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
+      - name: Install Nginx Ingress
+        run: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.2/deploy/static/provider/aws/deploy.yaml
+      - name: Get Ingress DNS
+        id: get-ingress-dns
+        run: |
+          INGRESS_DNS=$(kubectl -n ingress-nginx  get svc ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].hostname}")
+          echo "INGRESS_DNS=$INGRESS_DNS" >> $GITHUB_ENV
+          echo ::set-output name=INGRESS_DNS::$INGRESS_DNS
       - name: Helm Upgrade
         run: |
-          RDS_USERNAME=$(aws ssm get-parameter --with-decryption --name "RDS_USERNAME" --query "Parameter.Value" --output text) 
-          RDS_PASSWORD=$(aws ssm get-parameter --with-decryption --name "RDS_PASSWORD" --query "Parameter.Value" --output text) 
-          RDS_HOST=$(aws ssm get-parameter --with-decryption --name "RDS_HOST" --query "Parameter.Value" --output text) 
-          INGRESS_HOST=$(aws ssm get-parameter --with-decryption --name "INGRESS_HOST" --query "Parameter.Value" --output text) 
-          helm upgrade --install bahmni-dev . \
-          --set openmrs.secrets.DB_USERNAME= $RDS_USERNAME \
-          --set openmrs.secrets.DB_PASSWORD= $RDS_PASSWORD \
-          --set openmrs.secrets.DB_HOST= $RDS_HOST \
-          --set ingress.host= $INGRESS_HOST
+          RDS_USERNAME=$(aws ssm get-parameter --with-decryption --name "/dev/rds/mysql/username" --query "Parameter.Value" --output text)
+          RDS_PASSWORD=$(aws ssm get-parameter --with-decryption --name "/dev/rds/mysql/password" --query "Parameter.Value" --output text)
+          RDS_HOST=$(aws ssm get-parameter --with-decryption --name "/dev/rds/mysql/host" --query "Parameter.Value" --output text)
+          helm upgrade bahmni-dev . \
+          --set openmrs.secrets.DB_USERNAME=$RDS_USERNAME \
+          --set openmrs.secrets.DB_PASSWORD=$RDS_PASSWORD \
+          --set openmrs.secrets.DB_HOST=$RDS_HOST \
+          --set ingress.host=$INGRESS_DNS \
+          --install
+
+  slack-workflow-notify:
+    name: Post Deployment Status To Slack
+    needs:
+      - deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy notification
+        if: ${{ needs.deploy.result == 'success' }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":":white_check_mark:  Bahmni India Distro deployed on ${{ needs.deploy.outputs.INGRESS_DNS }}"}' ${{ secrets.SLACK_WEBHOOK_URL }}
