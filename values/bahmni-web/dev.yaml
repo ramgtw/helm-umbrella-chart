@@ -1,0 +1,4 @@
+bahmni-web:
+  metadata:
+    labels:
+      environment: dev

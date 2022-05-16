@@ -1,0 +1,16 @@
+apiVersion: v2
+name: bahmni-india-distro
+description: Helm Umbrella chart for Bahmni India Distribution
+type: application
+version: 1.0.0
+
+dependencies:
+  - repository: https://bahmni.github.io/helm-charts
+    name: openmrs
+    version: ~1.0.0-0
+    condition: openmrs.enabled
+
+  - repository: https://bahmni.github.io/helm-charts
+    name: bahmni-web
+    version: ~1.0.0-0
+    condition: bahmni-web.enabled

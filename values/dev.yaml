@@ -1,0 +1,8 @@
+metadata:
+  labels:
+    environment: dev
+
+openmrs:
+  enabled: true
+bahmni-web:
+  enabled: true

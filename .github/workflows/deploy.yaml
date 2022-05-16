@@ -1,0 +1,51 @@
+name: Deploy to dev environment
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.BAHMNI_AWS_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.BAHMNI_AWS_SECRET }}
+      AWS_DEFAULT_REGION: ${{ secrets.BAHMNI_AWS_REGION }}
+      CLUSTER_NAME: bahmni-cluster-dev
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Helm Dependency Update
+        run: helm dependency update
+      - name: Merge Values
+        run: |
+          yq eval-all '. as $item ireduce ({}; . * $item )' \
+          values/dev.yaml \
+          values/openmrs/dev.yaml \
+          values/bahmni-web/dev.yaml \
+          > values.yaml
+      - name: Authorise Kubectl with EKS
+        run: aws eks update-kubeconfig --name $CLUSTER_NAME
+      - name: Install Nginx Ingress
+        run: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.2/deploy/static/provider/aws/deploy.yaml
+      - name: Get Ingress DNS
+        run: |
+          INGRESS_DNS=$(kubectl -n ingress-nginx  get svc ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].hostname}")
+          echo "INGRESS_DNS=$INGRESS_DNS" >> $GITHUB_ENV
+      - name: Helm Upgrade
+        run: |
+          RDS_USERNAME=$(aws ssm get-parameter --with-decryption --name "/dev/rds/mysql/username" --query "Parameter.Value" --output text)
+          RDS_PASSWORD=$(aws ssm get-parameter --with-decryption --name "/dev/rds/mysql/password" --query "Parameter.Value" --output text)
+          RDS_HOST=$(aws ssm get-parameter --with-decryption --name "/dev/rds/mysql/host" --query "Parameter.Value" --output text)
+          helm upgrade bahmni-dev . \
+          --set openmrs.secrets.DB_USERNAME=$RDS_USERNAME \
+          --set openmrs.secrets.DB_PASSWORD=$RDS_PASSWORD \
+          --set openmrs.secrets.DB_HOST=$RDS_HOST \
+          --set ingress.host=$INGRESS_DNS \
+          --install
+      - name: Post Deployment Status To Slack
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":":white_check_mark:  Bahmni India Distro deployed on ${{ env.INGRESS_DNS }}"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          
