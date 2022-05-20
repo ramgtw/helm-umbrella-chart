@@ -47,8 +47,10 @@ jobs:
           RDS_PASSWORD=$(aws ssm get-parameter --with-decryption --name "/dev/rds/mysql/password" --query "Parameter.Value" --output text)
           RDS_HOST=$(aws ssm get-parameter --with-decryption --name "/dev/rds/mysql/host" --query "Parameter.Value" --output text)
           helm upgrade bahmni-dev . \
-          --set openmrs.secrets.DB_USERNAME=$RDS_USERNAME \
-          --set openmrs.secrets.DB_PASSWORD=$RDS_PASSWORD \
+          --set openmrs.secrets.DB_ROOT_USERNAME=$RDS_USERNAME \
+          --set openmrs.secrets.DB_ROOT_PASSWORD=$RDS_PASSWORD \
+          --set openmrs.secrets.DB_USERNAME={{ secrets.DEV_OPENMRS_DB_USERNAME }} \
+          --set openmrs.secrets.DB_PASSWORD={{ secrets.DEV_OPENMRS_DB_PASSWORD }} \
           --set openmrs.secrets.DB_HOST=$RDS_HOST \
           --set ingress.host=$INGRESS_DNS \
           --install
