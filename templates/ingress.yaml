@@ -37,7 +37,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: openmrs
+                name: bahmni-openmrs
                 port:
                   number: 8080
           {{- end }}
