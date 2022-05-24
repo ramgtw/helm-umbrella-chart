@@ -76,7 +76,7 @@ jobs:
       - name: Success
         if: ${{ needs.deploy.result == 'success' }}
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":">🟢 Bahmni India Distro deployed on https://lite.mybahmni.in \n> <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|Umbrella Chart Job #${{github.run_id}}>"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' --data '{"text":">🟢 Bahmni India Distro deployed. \n>*Bahmni* https://lite.mybahmni.in \n>*Payments* https://payments-lite.mybahmni.in \n> <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|Umbrella Chart Job #${{github.run_id}}>"}' ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Failure
         if: ${{ needs.deploy.result == 'failure' }}
         run: |
