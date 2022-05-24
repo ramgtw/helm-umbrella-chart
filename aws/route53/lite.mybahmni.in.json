@@ -1,15 +1,29 @@
 {
   "Comment": "Creating Alias resource record set in Route 53",
-  "Changes": [{
-    "Action": "UPSERT",
-    "ResourceRecordSet": {
-      "Name": "lite.eks.mybahmni.in.",
-      "Type": "A",
-      "AliasTarget": {
-          "HostedZoneId": "ZVDDRBQ08TROA",
-          "DNSName": "elb.ap-south-1.amazonaws.com",
-          "EvaluateTargetHealth": false
+  "Changes": [
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "lite.mybahmni.in.",
+        "Type": "A",
+        "AliasTarget": {
+            "HostedZoneId": "ZVDDRBQ08TROA",
+            "DNSName": "bogus-DNS-will-be-replaced-in-pipeline.amazonaws.com",
+            "EvaluateTargetHealth": false
+        }
+      }
+    },
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "payments-lite.mybahmni.in.",
+        "Type": "A",
+        "AliasTarget": {
+            "HostedZoneId": "ZVDDRBQ08TROA",
+            "DNSName": "bogus-DNS-will-be-replaced-in-pipeline.amazonaws.com",
+            "EvaluateTargetHealth": false
+        }
       }
     }
-  }]
+  ]
 }

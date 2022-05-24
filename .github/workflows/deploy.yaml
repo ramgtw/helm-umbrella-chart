@@ -45,7 +45,7 @@ jobs:
       - name: Upsert Route53 A record with INGRESS_DNS
         run: |
           INGRESS_DNS=$(kubectl -n ingress-nginx  get svc ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].hostname}")
-          jq --arg ingress_dns "$INGRESS_DNS" '.Changes[0].ResourceRecordSet.AliasTarget.DNSName = $ingress_dns' aws/route53/lite.mybahmni.in.json > recordset
+          jq --arg ingress_dns "$INGRESS_DNS" '.Changes[].ResourceRecordSet.AliasTarget.DNSName = $ingress_dns' aws/route53/lite.mybahmni.in.json > recordset
           aws route53 change-resource-record-sets --hosted-zone-id ${{ secrets.HOSTED_ZONE_ID }} --change-batch file://recordset
       - name: Helm Upgrade
         run: |
