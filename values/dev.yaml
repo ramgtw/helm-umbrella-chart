@@ -12,3 +12,5 @@ crater:
   enabled: true
 reports:
   enabled: true
+  config:
+    OPENMRS_HOST: "bahmni-openmrs"
