@@ -70,7 +70,7 @@ jobs:
           --set reports.secrets.REPORTS_DB_PASSWORD=$RDS_PASSWORD \
           --set hip.secrets.GATEWAY_CLIENT_ID=$GATEWAY_CLIENT_ID \
           --set hip.secrets.GATEWAY_CLIENT_SECRET=$GATEWAY_CLIENT_SECRET \
-          --set hip.secrets.OPENMRS_PASSWORD=Admin@123 \
+          --set hip.secrets.OPENMRS_PASSWORD=Admin123 \
           --set hip.config.BAHMNI_URL=https://lite.mybahmni.in/openmrs \
           --set hiu.secrets.HIU_CLIENT_ID=$GATEWAY_CLIENT_ID \
           --set hiu.secrets.HIU_CLIENT_SECRET=$GATEWAY_CLIENT_SECRET \
