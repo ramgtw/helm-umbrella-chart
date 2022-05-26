@@ -15,7 +15,7 @@ reports:
   config:
     OPENMRS_HOST: "bahmni-openmrs"
 hiu:
-  enabled: true
+  enabled: false
 hiu-db:
   enabled: true
 hiu-ui:
