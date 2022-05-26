@@ -15,13 +15,13 @@ reports:
   config:
     OPENMRS_HOST: "bahmni-openmrs"
 hiu:
-  enabled: true
+  enabled: false
 hiu-db:
   enabled: true
 hiu-ui:
   enabled: true
 hip:
-  enabled: true
+  enabled: false
 otp-service:
   enabled: true
 abdm-db:
