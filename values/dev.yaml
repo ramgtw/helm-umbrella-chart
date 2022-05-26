@@ -11,23 +11,23 @@ bahmni-lab:
 crater:
   enabled: true
 reports:
-  enabled: true
+  enabled: false
   config:
     OPENMRS_HOST: "bahmni-openmrs"
 hiu:
-  enabled: true
+  enabled: false
 hiu-db:
-  enabled: true
+  enabled: false
 hiu-ui:
-  enabled: true
+  enabled: false
 hip:
-  enabled: true
+  enabled: false
 otp-service:
-  enabled: true
+  enabled: false
 abdm-db:
-  enabled: true
+  enabled: false
 rabbit-mq:
-  enabled: true
+  enabled: false
 
 rabbitmq:
   auth:
