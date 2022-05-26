@@ -31,9 +31,9 @@ rabbit-mq:
 
 rabbitmq:
   auth:
-    username: guest
-    password: guest
-    erlangCookie: guest
+    username: bahmni
+    password: bahmni
+    erlangCookie: bahmni
 
 global:
   postgresql:
