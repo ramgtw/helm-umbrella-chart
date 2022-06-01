@@ -1,0 +1,7 @@
+grafana:
+  ingress:
+    enabled: true
+    hosts:
+      - monitoring-lite.mybahmni.in
+  defaultDashboardsTimezone: browser
+
