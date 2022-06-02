@@ -42,9 +42,13 @@ jobs:
           aws route53 change-resource-record-sets --hosted-zone-id ${{ secrets.HOSTED_ZONE_ID }} --change-batch file://recordset
       - name: Helm Upgrade
         run: |
-          GRAFANA_ADMIN_PASSWORD=$(aws ssm get-parameter --with-decryption --name "/nonprod/monitoring/grafana/adminPassword" --query "Parameter.Value" --output text)
+          GRAFANA_ADMIN_PASSWORD=$(aws ssm get-parameter --with-decryption --name "/nonprod/grafana/ADMIN_PASSWORD" --query "Parameter.Value" --output text)
+          GITHUB_OAUTH_CLIENT_ID=$(aws ssm get-parameter --with-decryption --name "/nonprod/grafana/oauth/github/bahmniindia/CLIENT_ID" --query "Parameter.Value" --output text)
+          GITHUB_OAUTH_CLIENT_SECRET=$(aws ssm get-parameter --with-decryption --name "/nonprod/grafana/oauth/github/bahmniindia/CLIENT_SECRET" --query "Parameter.Value" --output text)
           helm upgrade monitoring  prometheus-community/kube-prometheus-stack -n monitoring --create-namespace \
           --values=values/monitoring.yaml \
           --set grafana.adminPassword=$GRAFANA_ADMIN_PASSWORD \
+          --set 'grafana.grafana\.ini.auth\.github.client_id'=$GITHUB_OAUTH_CLIENT_ID \
+          --set 'grafana.grafana\.ini.auth\.github.client_secret'=$GITHUB_OAUTH_CLIENT_SECRET \
           --install \
           --version=35.5.0
