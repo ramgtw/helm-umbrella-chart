@@ -73,7 +73,7 @@ spec:
           {{- end }}
 
           {{- if .Values.hip.enabled }}
-          - path: /hip
+          - path: /hiprovider
             pathType: Prefix
             backend:
               service:
