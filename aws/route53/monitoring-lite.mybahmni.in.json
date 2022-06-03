@@ -1,0 +1,17 @@
+{
+  "Comment": "Creating Alias resource record set in Route 53",
+  "Changes": [
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "monitoring-lite.mybahmni.in.",
+        "Type": "A",
+        "AliasTarget": {
+          "HostedZoneId": "ZVDDRBQ08TROA",
+          "DNSName": "bogus-DNS-will-be-replaced-in-pipeline.amazonaws.com",
+          "EvaluateTargetHealth": false
+        }
+      }
+    }
+  ]
+}
