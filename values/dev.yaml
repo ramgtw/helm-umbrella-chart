@@ -2,9 +2,6 @@ global:
   metadata:
     labels:
       environment: dev
-  postgresql:
-    auth:
-      postgresPassword: welcome
 
 openmrs:
   enabled: true
@@ -39,6 +36,4 @@ rabbit-mq:
 
 rabbitmq:
   auth:
-    username: bahmni
-    password: bahmni
     erlangCookie: bahmni
