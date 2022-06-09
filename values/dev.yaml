@@ -1,7 +1,6 @@
-global:
-  metadata:
-    labels:
-      environment: dev
+metadata:
+  labels:
+    environment: dev
 
 openmrs:
   enabled: true
