@@ -24,26 +24,26 @@ aws iam put-role-policy --role-name BahmniEKSAdminRoleForIAMUsers --policy-name 
 `aws/policies` folder contains all custom policies applied to the AWS account.
 
 Create a `AssumeRole` policy:
-```aidl
+```
  aws iam create-policy --policy-name BahmniEKSAdminAssumeRolePolicy --policy-document file://aws/policies/BahmniEKSAdminAssumeRolePolicy.json
 ```
 Note the policy arn 
 
 
 Next, Attach the `BahmniEKSAdminAssumeRolePolicy` to `bahmni_eks_admin` group.
-```aidl
+```
 aws iam attach-group-policy --group-name bahmni_eks_admin --policy-arn <POLICY_ARN>
 ```
 ### Authorise kubectl with EKS
-```aidl
+```
 aws eks update-kubeconfig --name bahmni-cluster-dev
 ```
 ### Apply Kubernetes Developer Cluster Role
-```aidl
+```
 kubectl apply -f k8s-rbac/eks-admin.yaml
 ```
 ### Create Identity Mapping
-```aidl
+```
 eksctl create iamidentitymapping \
 --cluster bahmni-cluster-dev \
 --arn  arn:aws:iam::{YourAccountNumber}:role/BahmniEKSAdminRoleForIAMUsers \
