@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: dev-role
+  name: developer-role
 rules:
 - apiGroups:
   - ""
@@ -54,12 +54,12 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: eks-admin-binding
+  name: eks-developer-binding
 subjects:
 - kind: Group
-  name: eks-admin-group
+  name: eks-developer-group
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
-  name: eks-admin
+  name: developer-role
   apiGroup: rbac.authorization.k8s.io
