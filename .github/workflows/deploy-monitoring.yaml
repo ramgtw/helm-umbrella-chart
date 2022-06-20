@@ -16,7 +16,7 @@ jobs:
     name: Deploy Monitoring
     runs-on: ubuntu-latest
     env:
-      CLUSTER_NAME: bahmni-cluster-dev
+      CLUSTER_NAME: bahmni-cluster-nonprod
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
