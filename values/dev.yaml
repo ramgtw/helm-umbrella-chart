@@ -30,9 +30,21 @@ otp-service:
   enabled: true
 abdm-db:
   enabled: true
-rabbit-mq:
-  enabled: true
 
 rabbitmq:
+  enabled: true
+  persistence:
+    accessModes:
+      - ReadWriteMany
   auth:
     erlangCookie: bahmni
+
+postgresql:
+  primary:
+    persistence:
+      accessModes:
+        - ReadWriteMany
+  readReplicas:
+    persistence:
+      accessModes:
+        - ReadOnlyMany
