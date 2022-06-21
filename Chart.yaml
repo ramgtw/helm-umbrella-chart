@@ -63,4 +63,4 @@ dependencies:
   - repository: https://charts.bitnami.com/bitnami
     name: rabbitmq
     version: 9.1.4
-    condition: rabbitmq.enabled
+    condition: rabbit-mq.enabled
