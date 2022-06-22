@@ -36,3 +36,7 @@ rabbit-mq:
 rabbitmq:
   auth:
     erlangCookie: bahmni
+  persistence:
+    storageClassName: efs-sc
+    accessModes:
+      - ReadWriteMany
