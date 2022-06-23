@@ -1,0 +1,58 @@
+metadata:
+  labels:
+    environment: dev
+ingress:
+  host: bahmni.local
+
+openmrs:
+  enabled: true
+bahmni-openmrs:
+  secrets:
+    DB_USERNAME: openmrs-user
+    DB_PASSWORD: password
+    DB_HOST: mysql
+  config:
+    DB_NAME: openmrs
+bahmni-web:
+  enabled: true
+bahmni-lab:
+  enabled: true
+crater:
+  enabled: true
+reports:
+  enabled: true
+  config:
+    OPENMRS_HOST: "bahmni-openmrs"
+    OPENMRS_DB_NAME: openmrs
+    REPORTS_DB_NAME: reports
+  secrets:
+    OPENMRS_DB_HOST: mysql
+    OPENMRS_DB_USERNAME: openmrs-user
+    OPENMRS_DB_PASSWORD: password
+    REPORTS_DB_SERVER: mysql
+    REPORTS_DB_USERNAME: reports-user
+    REPORTS_DB_PASSWORD: password
+  image:
+    repository: bahmniindiadistro
+    name: reports
+    tag: 1.0.0-1
+hiu:
+  enabled: false
+hiu-db:
+  enabled: false
+hiu-ui:
+  enabled: false
+hip:
+  enabled: false
+otp-service:
+  enabled: false
+abdm-db:
+  enabled: false
+rabbit-mq:
+  enabled: false
+
+rabbitmq:
+  auth:
+    username: bahmni
+    password: bahmni
+    erlangCookie: bahmni
