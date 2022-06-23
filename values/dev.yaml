@@ -37,6 +37,8 @@ rabbit-mq:
   enabled: true
 
 postgresql:
+  volumePermissions:
+    enabled: true
   primary:
     persistence:
       storageClass: efs-sc
@@ -44,6 +46,8 @@ postgresql:
         - ReadWriteMany
 
 rabbitmq:
+  volumePermissions:
+    enabled: true
   auth:
     erlangCookie: bahmni
   persistence:
