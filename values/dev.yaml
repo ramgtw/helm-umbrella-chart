@@ -33,10 +33,13 @@ abdm-db:
 rabbit-mq:
   enabled: true
 
+global:
+  storageClass: efs-sc
+
 rabbitmq:
   auth:
     erlangCookie: bahmni
   persistence:
-    storageClassName: efs-sc
+    storageClass: efs-sc
     accessModes:
       - ReadWriteMany
