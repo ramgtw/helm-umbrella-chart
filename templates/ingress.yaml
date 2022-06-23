@@ -102,7 +102,7 @@ metadata:
     environment: {{ .Values.metadata.labels.environment }}
   annotations:
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      add_header Set-Cookie "reporting_session=$cookie_JSESSIONID;Domain={{ .Values.ingress.host }};Path=/;Max-Age=86400";
+      add_header Set-Cookie "reporting_session=$cookie_JSESSIONID;Path=/;Max-Age=86400";
 spec:
   ingressClassName: nginx
   rules:
