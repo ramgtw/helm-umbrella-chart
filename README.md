@@ -5,7 +5,8 @@ Helm Umbrella Chart for Bahmni India Distro
 
 1. Install [docker](https://docs.docker.com/engine/install/)
 2. Install [minikube](https://minikube.sigs.k8s.io/docs/start/) >=1.25.2
-3. Increase resources of your docker to a memory of atleast 8GB.
+3. Install [Helm-3](https://helm.sh/docs/intro/install/#through-package-managers)
+4. Increase resources of your docker to a memory of atleast 8GB.
    ([Mac](https://docs.docker.com/desktop/mac/) /
    [Windows](https://docs.docker.com/desktop/windows/))
 
@@ -96,7 +97,10 @@ helm install db-setup db-setup --repo https://bahmni.github.io/helm-charts --dev
           --set databases.reports.USERNAME=reports-user \
           --set databases.reports.PASSWORD=password
 ```
-This command takes a while to complete.
+This command takes a while to complete. Once it is completed run the following command to remove datbase root credentials from the cluster.
+```shell
+helm uninstall db-setup
+```
 
 ### Installing the application Helm-Umbrella Chart
 Navigate to the directory where you cloned this repository
@@ -109,9 +113,9 @@ helm install bahmni-local . --values=values/local.yaml
 
 Once the pods and servies are running you can access it from the browser on
 
-1. Bahmni EMR --> https://bahmni.k8s/bahmni/home
-2. OpenMRS --> https://bahmni.k8s/openmrs
-4. Crater --> https://payments-bahmni.k8s/
+1. Bahmni EMR --> https://bahmni.local/bahmni/home
+2. OpenMRS --> https://bahmni.local/openmrs
+4. Crater --> https://payments-bahmni.local/
 ## Setup Developer Access to the Cluster
 
 ### Creating a User Group for EKS Cluster Admin Access
