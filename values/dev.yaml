@@ -5,7 +5,7 @@ metadata:
   labels:
     environment: dev
 
-openmrs:
+bahmni-openmrs:
   enabled: true
 bahmni-web:
   enabled: true
