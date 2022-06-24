@@ -79,7 +79,7 @@ host operating system.
 Note: Run this in a seperate terminal and keep it open
 
 ### Running MySQL DB Server
-`helm install --repo https://charts.bitnami.com/bitnami mysql mysql --set auth.rootPassword=root --set image.repository=mysql --set image.tag=5.6`
+`helm install --repo https://charts.bitnami.com/bitnami mysql mysql --set auth.rootPassword=root --set image.tag=5.7`
 
 ### Running Database setup helm chart
 ```shell
