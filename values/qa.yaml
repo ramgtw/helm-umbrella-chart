@@ -2,7 +2,7 @@ metadata:
   labels:
     environment: qa
 
-openmrs:
+bahmni-openmrs:
   enabled: true
   metadata:
     labels:
