@@ -31,6 +31,9 @@ hiu-ui:
   enabled: true
 hip:
   enabled: true
+  config:
+    CONNECTION_STRING: "Host=bahmni-dev-postgresql;Port=5432;Username=postgres;Password=welcome;Database=hipservice"
+    RABBITMQ_HOST: "bahmni-dev-rabbitmq"
 otp-service:
   enabled: true
 rabbit-mq:

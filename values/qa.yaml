@@ -52,6 +52,9 @@ hiu-ui:
       environment: qa
 hip:
   enabled: true
+  config:
+    CONNECTION_STRING: "Host=bahmni-qa-postgresql;Port=5432;Username=postgres;Password=welcome;Database=hipservice"
+    RABBITMQ_HOST: "bahmni-qa-rabbitmq"
   metadata:
     labels:
       environment: qa
