@@ -25,18 +25,19 @@ hiu:
   enabled: true
 hiu-db:
   enabled: true
+  config:
+    JAVA_TOOL_OPTIONS: "-Djdbc.url=jdbc:postgresql://bahmni-dev-postgresql:5432/ -Djdbc.username=postgres -Djdbc.password=welcome -Djdbc.database=health_information_user"
 hiu-ui:
   enabled: true
 hip:
   enabled: true
 otp-service:
   enabled: true
-abdm-db:
-  enabled: true
 rabbit-mq:
   enabled: true
 
 postgresql:
+  enabled: true
   volumePermissions:
     enabled: true
   primary:

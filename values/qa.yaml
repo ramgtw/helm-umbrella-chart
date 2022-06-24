@@ -40,6 +40,8 @@ hiu:
       environment: qa
 hiu-db:
   enabled: true
+  config:
+    JAVA_TOOL_OPTIONS: "-Djdbc.url=jdbc:postgresql://bahmni-qa-postgresql:5432/ -Djdbc.username=postgres -Djdbc.password=welcome -Djdbc.database=health_information_user"
   metadata:
     labels:
       environment: qa
@@ -58,7 +60,7 @@ otp-service:
   metadata:
     labels:
       environment: qa
-abdm-db:
+postgresql:
   enabled: true
 rabbit-mq:
   enabled: true

@@ -22,7 +22,7 @@ bahmni-web:
 bahmni-lab:
   enabled: false
 crater:
-  enabled: false
+  enabled: true
 reports:
   enabled: false
   config:
@@ -44,13 +44,15 @@ hiu:
   enabled: false
 hiu-db:
   enabled: false
+  config:
+    JAVA_TOOL_OPTIONS: "-Djdbc.url=jdbc:postgresql://bahmni-local-postgresql:5432/ -Djdbc.username=postgres -Djdbc.password=welcome -Djdbc.database=health_information_user"
 hiu-ui:
   enabled: false
 hip:
   enabled: false
 otp-service:
   enabled: false
-abdm-db:
+postgresql:
   enabled: false
 rabbit-mq:
   enabled: false
