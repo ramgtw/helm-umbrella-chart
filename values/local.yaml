@@ -1,12 +1,16 @@
+global:
+  postgresql:
+    auth: 
+      postgresPassword: welcome
+
 metadata:
   labels:
-    environment: dev
+    environment: local
 ingress:
-  host: bahmni.local
+  host: bahmni.k8s
 
-openmrs:
-  enabled: true
 bahmni-openmrs:
+  enabled: true
   secrets:
     DB_USERNAME: openmrs-user
     DB_PASSWORD: password
@@ -16,11 +20,11 @@ bahmni-openmrs:
 bahmni-web:
   enabled: true
 bahmni-lab:
-  enabled: true
+  enabled: false
 crater:
-  enabled: true
+  enabled: false
 reports:
-  enabled: true
+  enabled: false
   config:
     OPENMRS_HOST: "bahmni-openmrs"
     OPENMRS_DB_NAME: openmrs
