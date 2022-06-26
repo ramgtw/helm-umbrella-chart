@@ -42,6 +42,9 @@ reports:
     tag: 1.0.0-1
 hiu:
   enabled: false
+  config:
+    POSTGRES_HOST: bahmni-local-postgresql
+    RABBITMQ_HOST: bahmni-local-rabbitmq
 hiu-db:
   enabled: false
   config:

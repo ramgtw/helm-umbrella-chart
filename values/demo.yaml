@@ -47,6 +47,9 @@ hiu-db:
       environment: demo
 hiu-ui:
   enabled: true
+  config:
+    POSTGRES_HOST: bahmni-demo-postgresql
+    RABBITMQ_HOST: bahmni-demo-rabbitmq
   metadata:
     labels:
       environment: demo

@@ -29,6 +29,9 @@ hiu-db:
     JAVA_TOOL_OPTIONS: "-Djdbc.url=jdbc:postgresql://bahmni-dev-postgresql:5432/ -Djdbc.username=postgres -Djdbc.password=welcome -Djdbc.database=health_information_user"
 hiu-ui:
   enabled: true
+  config:
+    POSTGRES_HOST: bahmni-dev-postgresql
+    RABBITMQ_HOST: bahmni-dev-rabbitmq
 hip:
   enabled: true
   config:

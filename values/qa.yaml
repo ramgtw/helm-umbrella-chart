@@ -47,6 +47,9 @@ hiu-db:
       environment: qa
 hiu-ui:
   enabled: true
+  config:
+    POSTGRES_HOST: bahmni-qa-postgresql
+    RABBITMQ_HOST: bahmni-qa-rabbitmq
   metadata:
     labels:
       environment: qa
