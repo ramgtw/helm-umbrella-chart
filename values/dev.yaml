@@ -44,6 +44,8 @@ rabbit-mq:
 
 postgresql:
   enabled: true
+  volumePermissions:
+    enabled: true
   primary:
     persistence:
       storageClass: efs-sc
