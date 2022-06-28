@@ -49,6 +49,7 @@ postgresql:
   primary:
     persistence:
       storageClass: efs-sc
+      subPath: pgdata
       accessModes:
         - ReadWriteMany
 
