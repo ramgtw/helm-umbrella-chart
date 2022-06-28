@@ -47,6 +47,10 @@ postgresql:
   image:
     debug: true
   primary:
+    podSecurityContext:
+      fsGroup: 0
+    containerSecurityContext:
+      runAsUser: 0
     persistence:
       storageClass: efs-sc
       subPath: pgdata
