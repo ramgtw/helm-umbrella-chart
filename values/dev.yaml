@@ -44,16 +44,11 @@ rabbit-mq:
 
 postgresql:
   enabled: true
-  image:
-    debug: true
+  volumePermissions:
+    enabled: true
   primary:
-    podSecurityContext:
-      fsGroup: 0
-    containerSecurityContext:
-      runAsUser: 0
     persistence:
       storageClass: efs-sc
-      subPath: pgdata
       accessModes:
         - ReadWriteMany
 
