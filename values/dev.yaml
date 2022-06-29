@@ -55,7 +55,7 @@ postgresql:
 rabbitmq:
   auth:
     erlangCookie: bahmni
-  persistence:
-    storageClass: efs-sc
-    accessModes:
-      - ReadWriteMany
+#   persistence:
+#     storageClass: efs-sc
+#     accessModes:
+#       - ReadWriteMany
