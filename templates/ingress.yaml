@@ -47,7 +47,7 @@ spec:
               service:
                 name: otp-service
                 port:
-                  number: 8092
+                  number: 80
           {{- end }}
 
     - host: payments-{{ .Values.ingress.host }}
