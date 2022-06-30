@@ -58,7 +58,7 @@ dependencies:
   - repository: https://charts.bitnami.com/bitnami
     name: postgresql
     version: 11.2.6
-    condition: abdm-db.enabled
+    condition: postgresql.enabled
 
   - repository: https://charts.bitnami.com/bitnami
     name: rabbitmq

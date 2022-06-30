@@ -106,14 +106,16 @@ helm uninstall db-setup
 Navigate to the directory where you cloned this repository
 ```shell
 helm dependency update
-helm upgrade bahmni-local . --values=values/local.yaml
+helm upgrade bahmni-local . --values=values/local.yaml --install
 ```
 ### Notes
 - Toggle on the services in local.yaml based on your local setup requirements. Add any missing environment variables either in local.yaml or `--set`. Check [`helm upgrade ...`](https://github.com/BahmniIndiaDistro/helm-umbrella-chart/blob/2179120ef21acfd8f8332436c341e2f106dfa558/.github/workflows/deploy.yaml#L92) for list of variable needed by each service.
-- To uninstall a release use `helm delete [release name]` which will unintall all the resources under that release e.g. `helm delete db-setup`
+- To uninstall a release use `helm uninstall [release name]` which will uninstall all the resources under that release e.g. `helm uninstall db-setup`
 - Your local might be setup to query cloud K8s clusters e.g. aws. You need to ensure that you are in the minikube context for local development. Minikube bootstrap should take care of updating the kubectl current-context. You can verify and update the context using
 ```
 //verify current context
+$ kubectl config current-context
+(or)
 $ kubectl config view --minify
 
 //Update current context to minikube
