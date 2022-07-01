@@ -14,7 +14,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   claimRef:
     namespace: {{ .Values.metadata.labels.environment }}
-    name: data-bahmni-dev-postgresql-0
+    name: data-bahmni-{{ .Values.metadata.labels.environment }}-postgresql-0
   storageClassName: bahmni-efs-sc
   csi:
     driver: efs.csi.aws.com
