@@ -1,0 +1,30 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ssm:DescribeParameters"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameter*"
+      ],
+      "Resource": [
+        "arn:aws:ssm:ap-south-1:863324974761:parameter/demo/crater/*",
+        "arn:aws:ssm:ap-south-1:863324974761:parameter/dev/crater/*",
+        "arn:aws:ssm:ap-south-1:863324974761:parameter/demo/openmrs/*",
+        "arn:aws:ssm:ap-south-1:863324974761:parameter/dev/openmrs/*",
+        "arn:aws:ssm:ap-south-1:863324974761:parameter/demo/reports/*",
+        "arn:aws:ssm:ap-south-1:863324974761:parameter/dev/reports/*",
+        "arn:aws:ssm:ap-south-1:863324974761:parameter/nonprod/efs/file_system_id",
+        "arn:aws:ssm:ap-south-1:863324974761:parameter/nonprod/psql/DB_PASSWORD",
+        "arn:aws:ssm:ap-south-1:863324974761:parameter/nonprod/rabbitmq/*"
+      ]
+
+    }
+  ]
+}
