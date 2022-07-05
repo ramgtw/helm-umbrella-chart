@@ -179,3 +179,21 @@ eksctl create iamidentitymapping \
 --username assume-role-user \
 --no-duplicate-arns
 ```
+
+## Access RDS databases
+To access RDS databases:
+
+### Setting environment variables
+Set the environment variables first
+```
+ENVIRONMENT=<name-of-environment> #(e.g nonprod/dev/qa/demo)
+APPLICATION_NAME=<name-of-application> #(e.g openmrs)
+DB_HOST=$(aws ssm get-parameter --with-decryption --name "/nonprod/rds/mysql/host" --query "Parameter.Value" --output text)
+DB_USERNAME=$(aws ssm get-parameter --with-decryption --name "/$ENVIRONMENT/$APPLICATION_NAME/DB_USERNAME" --query "Parameter.Value" --output text)
+DB_PASSWORD=$(aws ssm get-parameter --with-decryption --name "/$ENVIRONMENT/$APPLICATION_NAME/DB_PASSWORD" --query "Parameter.Value" --output text)
+```
+
+### Create a pod
+```
+kubectl run "bastion-$RANDOM" --rm -it --image alpine --env="DB_HOST=$DB_HOST" --env="DB_USERNAME=$DB_USERNAME" --env="DB_PASSWORD=$DB_PASSWORD" -- sh -c 'apk add mysql-client && mysql -h$DB_HOST -u$DB_USERNAME -p$DB_PASSWORD'
+```
