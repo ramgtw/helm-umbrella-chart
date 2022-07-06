@@ -29,6 +29,7 @@ rules:
   - list
   - watch
   - create
+  - delete
   - patch
 - apiGroups:
   - apps
