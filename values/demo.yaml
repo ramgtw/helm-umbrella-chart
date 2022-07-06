@@ -89,3 +89,11 @@ rabbitmq:
     storageClass: bahmni-efs-sc
     accessModes:
       - ReadWriteMany
+
+patient-documents:
+  enabled: true
+  metadata:
+    labels:
+      environment: demo
+  config:
+    OPENMRS_HOST: "bahmni-openmrs"
