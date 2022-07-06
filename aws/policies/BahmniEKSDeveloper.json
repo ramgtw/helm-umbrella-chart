@@ -22,6 +22,7 @@
         "arn:aws:ssm:ap-south-1:863324974761:parameter/dev/reports/*",
         "arn:aws:ssm:ap-south-1:863324974761:parameter/nonprod/efs/file_system_id",
         "arn:aws:ssm:ap-south-1:863324974761:parameter/nonprod/psql/DB_PASSWORD",
+        "arn:aws:ssm:ap-south-1:863324974761:parameter/nonprod/rds/mysql/host",
         "arn:aws:ssm:ap-south-1:863324974761:parameter/nonprod/rabbitmq/*"
       ]
 
