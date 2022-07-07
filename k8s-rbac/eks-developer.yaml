@@ -16,6 +16,7 @@ rules:
   - configmaps
   - persistentvolumeclaims
   - persistentvolumes
+  - events
   verbs:
   - get
   - list
