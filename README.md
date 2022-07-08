@@ -144,23 +144,29 @@ Create Role with trust policy (first time)
 ```
 aws iam create-role --role-name BahmniEKSDeveloperRoleForIAMUsers --assume-role-policy-document file://aws/roles/BahmniEKSDeveloperRoleForIAMUsers.json
 ```
-The next step (Put Role Policy) Adds/Updates an inline policy document that is embedded in the role created.
+
 ```
-aws iam put-role-policy --role-name BahmniEKSDeveloperRoleForIAMUsers --policy-name BahmniEKSDeveloperAccess --policy-document file://aws/policies/BahmniEKSDeveloperInlinePolicy.json
-```
-### Create a Policy
+### Create Policies
 `aws/policies` folder contains all custom policies applied to the AWS account.
 
 Create a `AssumeRole` policy:
 ```
  aws iam create-policy --policy-name BahmniEKSDeveloperAssumeRolePolicy --policy-document file://aws/policies/BahmniEKSDeveloperAssumeRolePolicy.json
 ```
-Note the policy arn 
+Create a `BahmniEKSDeveloper` policy:
+```
+aws iam create-policy --policy-name BahmniEKSDeveloper --policy-document file://aws/policies/BahmniEKSDeveloper.json
+```
+Note the policy arns 
 
 
-Next, Attach the `BahmniEKSDeveloperAssumeRolePolicy` to `bahmni_eks_developers` group.
+Next, Attach the `BahmniEKSDeveloperAssumeRolePolicy`  to `bahmni_eks_developers` group.
 ```
 aws iam attach-group-policy --group-name bahmni_eks_developers --policy-arn <POLICY_ARN>
+```
+Attach the `BahmniEKSDeveloper`  to `BahmniEKSDeveloperRoleForIAMUsers` role.
+```
+aws iam attach-role-policy --policy-arn <POLICY_ARN> --role-name BahmniEKSDeveloperRoleForIAMUsers
 ```
 ### Authorise kubectl with EKS
 ```
@@ -178,4 +184,15 @@ eksctl create iamidentitymapping \
 --group eks-developer-group \
 --username assume-role-user \
 --no-duplicate-arns
+```
+
+## Access RDS databases
+To access RDS databases:
+
+Run the script `connectmysqlrds.sh`
+```
+./connectmysqlrds.sh <environment-name> <application-name>
+
+e.g
+./connectmysqlrds.sh dev openmrs
 ```

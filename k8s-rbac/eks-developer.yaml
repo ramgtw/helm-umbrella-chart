@@ -8,7 +8,6 @@ rules:
   resources:
   - nodes
   - namespaces
-  - pods
   - pods/log
   - services
   - replicationcontrollers
@@ -21,6 +20,18 @@ rules:
   - get
   - list
   - watch
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/attach
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - delete
+  - patch
 - apiGroups:
   - apps
   resources:
