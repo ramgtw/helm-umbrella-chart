@@ -3,6 +3,11 @@
   "Statement": [
     {
       "Effect": "Allow",
+      "Action": "eks:DescribeCluster",
+      "Resource": "arn:aws:eks:ap-south-1:{YourAccountNumber}:cluster/*"
+    },
+    {
+      "Effect": "Allow",
       "Action": [
         "ssm:DescribeParameters"
       ],
