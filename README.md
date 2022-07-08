@@ -145,7 +145,6 @@ Create Role with trust policy (first time)
 aws iam create-role --role-name BahmniEKSDeveloperRoleForIAMUsers --assume-role-policy-document file://aws/roles/BahmniEKSDeveloperRoleForIAMUsers.json
 ```
 
-```
 ### Create Policies
 `aws/policies` folder contains all custom policies applied to the AWS account.
 
