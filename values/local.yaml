@@ -23,6 +23,23 @@ bahmni-lab:
   enabled: false
 crater:
   enabled: true
+  config:
+    APP_URL: http://payments-bahmni.local
+    DB_DATABASE: crater
+    DB_HOST: mysql
+    DB_PORT: 3306
+    SANCTUM_STATEFUL_DOMAINS: payments-bahmni.local
+    SESSION_DOMAIN: payments-bahmni.local
+    AUTO_INSTALL: "true"
+    ADMIN_NAME: Super Man
+    COMPANY_NAME: Bahmni
+    COMPANY_SLUG: bahmni
+    COUNTRY_ID: 101
+  secrets:
+    DB_USERNAME: "crater-user"
+    DB_PASSWORD: "password"
+    ADMIN_EMAIL: "superman@bahmni.org"
+    ADMIN_PASSWORD: "crater123"
 reports:
   enabled: false
   config:

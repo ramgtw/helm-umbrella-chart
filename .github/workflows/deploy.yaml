@@ -106,6 +106,14 @@ jobs:
           --set reports.secrets.REPORTS_DB_USERNAME=$REPORTS_DB_USERNAME \
           --set reports.secrets.REPORTS_DB_PASSWORD=$REPORTS_DB_PASSWORD \
           --set reports.config.REPORTS_DB_NAME=bahmni_reports_${{ env.ENVIRONMENT }} \
+          --set crater.config.APP_URL=https://payments-${{env.ENVIRONMENT_DNS}} \
+          --set crater.config.DB_DATABASE=crater_${{ env.ENVIRONMENT }} \
+          --set crater.config.DB_HOST=$RDS_HOST \
+          --set crater.config.SANCTUM_STATEFUL_DOMAINS=payments-${{env.ENVIRONMENT_DNS}} \
+          --set crater.config.SESSION_DOMAIN=payments-${{env.ENVIRONMENT_DNS}} \
+          --set crater.secrets.DB_USERNAME=$CRATER_DB_USERNAME \
+          --set crater.secrets.DB_PASSWORD=$CRATER_DB_PASSWORD \
+          --set crater.secrets.ADMIN_PASSWORD=$CRATER_ADMIN_PASSWORD \
           --set hip.secrets.GATEWAY_CLIENT_ID=$GATEWAY_CLIENT_ID \
           --set hip.secrets.GATEWAY_CLIENT_SECRET=$GATEWAY_CLIENT_SECRET \
           --set hip.secrets.OPENMRS_PASSWORD=Admin123 \

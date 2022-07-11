@@ -13,6 +13,14 @@ bahmni-lab:
   enabled: true
 crater:
   enabled: true
+  config:
+    AUTO_INSTALL: "true"
+    ADMIN_NAME: Super Man
+    COMPANY_NAME: Bahmni
+    COMPANY_SLUG: bahmni
+    COUNTRY_ID: 101
+  secrets:
+    ADMIN_EMAIL: "superman@bahmni.org"
 reports:
   enabled: true
   config:
