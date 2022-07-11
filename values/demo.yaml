@@ -22,21 +22,17 @@ bahmni-lab:
       environment: demo
 crater:
   enabled: true
+  metadata:
+    labels:
+      environment: demo
   config:
-    APP_URL: https://payments-lite.mybahmni.in
-    DB_DATABASE: crater
-    DB_HOST: craterdb
-    DB_PORT: 3306
-    SANCTUM_STATEFUL_DOMAINS: payments-lite.mybahmni.in
-    SESSION_DOMAIN: payments-lite.mybahmni.in
     AUTO_INSTALL: "true"
     ADMIN_NAME: Super Man
     COMPANY_NAME: Bahmni
     COMPANY_SLUG: bahmni
     COUNTRY_ID: 101
-  metadata:
-    labels:
-      environment: demo
+  secrets:
+    ADMIN_EMAIL: "superman@bahmni.org"
 reports:
   enabled: true
   metadata:
