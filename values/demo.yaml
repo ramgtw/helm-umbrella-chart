@@ -85,6 +85,7 @@ postgresql:
     enabled: true
   primary:
     persistence:
+      subPath: demo
       storageClass: bahmni-efs-sc
       accessModes:
         - ReadWriteMany
