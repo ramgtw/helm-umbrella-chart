@@ -90,6 +90,7 @@ postgresql:
     enabled: true
   primary:
     persistence:
+      subPath: qa
       storageClass: bahmni-efs-sc
       accessModes:
         - ReadWriteMany
