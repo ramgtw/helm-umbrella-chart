@@ -50,13 +50,10 @@ otp-service:
 
 postgresql:
   enabled: true
-#  volumePermissions:
-#    enabled: true
-#  primary:
-#    persistence:
-#      storageClass: bahmni-efs-sc
-#      accessModes:
-#        - ReadWriteMany
+  primary:
+    persistence:
+      accessModes:
+        - ReadWriteMany
 
 rabbitmq:
   enabled: true
