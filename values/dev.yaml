@@ -50,9 +50,12 @@ otp-service:
 
 postgresql:
   enabled: true
+  volumePermissions:
+    enabled: true
   primary:
     persistence:
       subPath: dev
+      storageClass: bahmni-efs-sc
       accessModes:
         - ReadWriteMany
 
