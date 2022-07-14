@@ -77,6 +77,11 @@ otp-service:
   metadata:
     labels:
       environment: qa
+hip-atomfeed:
+  enabled: true
+  metadata:
+    labels:
+      environment: qa
 
 
 postgresql:

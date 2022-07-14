@@ -79,6 +79,8 @@ postgresql:
   enabled: false
 rabbit-mq:
   enabled: false
+hip-atomfeed:
+  enabled: false
 
 rabbitmq:
   auth:

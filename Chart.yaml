@@ -69,3 +69,8 @@ dependencies:
     name: patient-documents
     version: ~1.0.0-0
     condition: patient-documents.enabled
+
+  - repository: https://bahmniindiadistro.github.io/helm-charts
+    name: hip-atomfeed
+    version: ~1.0.0-0
+    condition: hip-atomfeed.enabled
