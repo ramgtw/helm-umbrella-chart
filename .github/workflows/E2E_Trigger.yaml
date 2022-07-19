@@ -10,7 +10,7 @@ on:
 env:
   ORG_NAME: Bahmni
   EVENT_TYPE: Smoke Test Lite
-  TEST_COMMAND: "gauge run specs --env dev.lite -v -p -n=3 --tags 'lite'"
+  TEST_COMMAND: "--env dev.lite --tags 'lite'"
 jobs:
   trigger-e2e-smoke-test-lite:
       name: Trigger E2E Smoke Test in Dev.Lite 
