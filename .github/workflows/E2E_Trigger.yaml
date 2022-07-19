@@ -1,0 +1,43 @@
+name: Trigger E2E Smoke Test Lite
+on:
+  workflow_run:
+    workflows: [Deploy]
+    types:
+      - completed
+env:
+  ORG_NAME: Bahmni
+  EVENT_TYPE: Smoke Test Lite
+  TEST_COMMAND: "gauge run specs --env dev.lite -v -p -n=3 --tags 'lite'"
+jobs:
+  trigger-e2e-smoke-test-lite:
+      name: Trigger E2E Smoke Test in Dev.Lite 
+      if: ${{ github.event.workflow_run.conclusion == 'success' }}
+      runs-on: ubuntu-latest
+      steps:
+        - name: Create repository_dispatch
+          env:
+            REPOSITORY_NAME: "bahmni-e2e-tests"
+          run: |
+            trigger_result=$(curl -s -o trigger_response.txt -w "%{http_code}" -X POST -H "Accept: application/vnd.github.v3+json" -H 'authorization: Bearer ${{ secrets.BAHMNI_PAT }}' https://api.github.com/repos/${ORG_NAME}/${REPOSITORY_NAME}/dispatches -d '{"event_type":"'"${EVENT_TYPE}"'","client_payload":{"testCommand":"'"${TEST_COMMAND}"'"}}')
+            if [ $trigger_result == 204 ];then
+              echo "Trigger to $ORG_NAME/$REPOSITORY_NAME Success"
+            else
+              echo "Trigger to $ORG_NAME/$REPOSITORY_NAME Failed"
+              cat trigger_response.txt
+              exit 1
+            fi
+  notification:
+    name: Slack notification
+    needs:
+      - trigger-e2e-smoke-test-lite
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Success
+        if: ${{ needs.trigger-e2e-smoke-test-lite.result == 'success' }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":">🟢 Bahmni India Distro Smoke Test Passed in Dev."}' ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Failure
+        if: ${{ needs.deploy.result == 'failure' }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"🔴 Bahmni India Distro Smoke Test Failed in Dev."}' ${{ secrets.SLACK_WEBHOOK_URL }}
