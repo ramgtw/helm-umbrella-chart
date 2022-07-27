@@ -55,10 +55,6 @@ reports:
     REPORTS_DB_SERVER: mysql
     REPORTS_DB_USERNAME: reports-user
     REPORTS_DB_PASSWORD: password
-  image:
-    repository: bahmniindiadistro
-    name: reports
-    tag: 1.0.0-1
 hiu:
   enabled: false
   config:
