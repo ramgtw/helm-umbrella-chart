@@ -42,10 +42,6 @@ reports:
       environment: demo
   config:
     OPENMRS_HOST: "bahmni-openmrs"
-  image:
-    repository: bahmniindiadistro
-    name: reports
-    tag: 1.0.0-1
 hiu:
   enabled: true
   metadata:
