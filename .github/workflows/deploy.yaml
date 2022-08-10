@@ -22,6 +22,7 @@ on:
           - dev
           - qa
           - demo
+          - performance
 env:
   ENVIRONMENT: ${{ github.event.inputs.environment || 'dev'}}
   ENVIRONMENT_DNS: ${{ (github.event.inputs.environment || 'dev') == 'demo' && 'lite.mybahmni.in' || format('{0}.{1}', github.event.inputs.environment || 'dev', 'lite.mybahmni.in') }}
