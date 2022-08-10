@@ -46,6 +46,9 @@ reports:
     OPENMRS_HOST: "openmrs"
 hiu:
   enabled: true
+  config:
+    POSTGRES_HOST: "bahmni-performance-postgresql"
+    RABBITMQ_HOST: "bahmni-performance-rabbitmq"
   metadata:
     labels:
       environment: performance
@@ -74,11 +77,15 @@ hip:
       environment: performance
 otp-service:
   enabled: true
+  config:
+    CONNECTION_STRING: "Host=bahmni-performance-postgresql;Port=5432;Username=postgres;Password=welcome;Database=otpservice;"
   metadata:
     labels:
       environment: performance
 hip-atomfeed:
   enabled: true
+  config:
+    DATABASE_URL: "jdbc:postgresql://bahmni-performance-postgresql:5432/"
   metadata:
     labels:
       environment: performance
