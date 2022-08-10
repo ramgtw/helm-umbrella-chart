@@ -44,6 +44,9 @@ reports:
     OPENMRS_HOST: "openmrs"
 hiu:
   enabled: true
+  config:
+    HIU_ID: "sukreet-bahmni"
+    HIU_NAME: "sukreet-bahmni"
   metadata:
     labels:
       environment: demo
@@ -67,6 +70,7 @@ hip:
   config:
     CONNECTION_STRING: "Host=bahmni-demo-postgresql;Port=5432;Username=postgres;Password=welcome;Database=hipservice"
     RABBITMQ_HOST: "bahmni-demo-rabbitmq"
+    BAHMNI_ID: "sukreet-bahmni"
   metadata:
     labels:
       environment: demo
