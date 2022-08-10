@@ -72,6 +72,8 @@ hip:
       environment: qa
 otp-service:
   enabled: true
+  config:
+    CONNECTION_STRING: "Host=bahmni-qa-postgresql;Port=5432;Username=postgres;Password=welcome;Database=otpservice;"
   metadata:
     labels:
       environment: qa
