@@ -45,6 +45,7 @@ reports:
 hiu:
   enabled: true
   config:
+    RABBITMQ_HOST: "bahmni-demo-rabbitmq"
     HIU_ID: "sukreet-bahmni"
     HIU_NAME: "sukreet-bahmni"
   metadata:
@@ -83,6 +84,8 @@ otp-service:
       environment: demo
 hip-atomfeed:
   enabled: true
+  config:
+    DATABASE_URL: "jdbc:postgresql://bahmni-demo-postgresql:5432/"
   metadata:
     labels:
       environment: demo

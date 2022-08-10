@@ -44,6 +44,10 @@ reports:
     OPENMRS_HOST: "openmrs"
 hiu:
   enabled: true
+  config:
+    RABBITMQ_HOST: "bahmni-qa-rabbitmq"
+    HIU_ID: "Bahmni"
+    HIU_NAME: "Bahmni"
   metadata:
     labels:
       environment: qa
@@ -79,6 +83,8 @@ otp-service:
       environment: qa
 hip-atomfeed:
   enabled: true
+  config:
+    DATABASE_URL: "jdbc:postgresql://bahmni-qa-postgresql:5432/"
   metadata:
     labels:
       environment: qa
