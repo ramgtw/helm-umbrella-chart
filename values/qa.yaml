@@ -47,6 +47,7 @@ reports:
 hiu:
   enabled: true
   config:
+    POSTGRES_HOST: "bahmni-qa-postgresql"
     RABBITMQ_HOST: "bahmni-qa-rabbitmq"
     HIU_ID: "Bahmni"
     HIU_NAME: "Bahmni"
