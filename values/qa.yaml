@@ -123,3 +123,6 @@ patient-documents:
       environment: qa
   config:
     OPENMRS_HOST: "openmrs"
+
+appointments:
+  enabled: true

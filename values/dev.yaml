@@ -78,3 +78,6 @@ patient-documents:
   enabled: true
   config:
     OPENMRS_HOST: "openmrs"
+
+appointments:
+  enabled: true
