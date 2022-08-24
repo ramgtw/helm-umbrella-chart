@@ -49,8 +49,8 @@ hiu:
   config:
     POSTGRES_HOST: "bahmni-qa-postgresql"
     RABBITMQ_HOST: "bahmni-qa-rabbitmq"
-    HIU_ID: "Bahmni"
-    HIU_NAME: "Bahmni"
+    HIU_ID: "Bahmni-QA"
+    HIU_NAME: "Bahmni-QA"
   metadata:
     labels:
       environment: qa
