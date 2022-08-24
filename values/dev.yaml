@@ -31,6 +31,12 @@ reports:
     OPENMRS_HOST: "openmrs"
 hiu:
   enabled: true
+  config:
+    POSTGRES_HOST: "bahmni-dev-postgresql"
+    RABBITMQ_HOST: "bahmni-dev-rabbitmq"
+    HIU_ID: "Bahmni"
+    HIU_NAME: "Bahmni"
+
 hiu-db:
   enabled: true
   config:
