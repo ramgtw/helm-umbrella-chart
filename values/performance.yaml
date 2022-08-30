@@ -49,6 +49,8 @@ hiu:
   config:
     POSTGRES_HOST: "bahmni-performance-postgresql"
     RABBITMQ_HOST: "bahmni-performance-rabbitmq"
+    HIU_ID: "Bahmni-Perf"
+    HIU_NAME: "Bahmni-Perf"
   metadata:
     labels:
       environment: performance
@@ -72,6 +74,7 @@ hip:
   config:
     CONNECTION_STRING: "Host=bahmni-performance-postgresql;Port=5432;Username=postgres;Password=welcome;Database=hipservice"
     RABBITMQ_HOST: "bahmni-performance-rabbitmq"
+    BAHMNI_ID: "Bahmni-Perf"
   metadata:
     labels:
       environment: performance
