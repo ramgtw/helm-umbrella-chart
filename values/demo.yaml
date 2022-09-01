@@ -49,8 +49,8 @@ hiu:
   config:
     POSTGRES_HOST: "bahmni-demo-postgresql"
     RABBITMQ_HOST: "bahmni-demo-rabbitmq"
-    HIU_ID: "sukreet-bahmni"
-    HIU_NAME: "sukreet-bahmni"
+    HIU_ID: "Bahmni-Demo"
+    HIU_NAME: "Bahmni-Demo"
   metadata:
     labels:
       environment: demo
@@ -74,7 +74,7 @@ hip:
   config:
     CONNECTION_STRING: "Host=bahmni-demo-postgresql;Port=5432;Username=postgres;Password=welcome;Database=hipservice"
     RABBITMQ_HOST: "bahmni-demo-rabbitmq"
-    BAHMNI_ID: "sukreet-bahmni"
+    BAHMNI_ID: "Bahmni-Demo"
   metadata:
     labels:
       environment: demo
