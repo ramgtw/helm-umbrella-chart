@@ -186,10 +186,15 @@ eksctl create iamidentitymapping \
 ```
 
 ## Access RDS databases
-To access RDS databases:
+#### Prerequisite:
+This is a one time setup. Configure your AWS CLI by following the steps [here](https://bahmni.atlassian.net/wiki/spaces/BAH/pages/3023011844/AWS+Access+for+Developers).
 
-Navigate to the project root directory and run the script `connectmysqlrds.sh`
-```
+#### Connecting to Database:
+1. Navigate to the project root directory
+2. Set your AWS Profile: `export AWS_PROFILE=bahmni-eks-developers` (Change the profile name if you have configured aws credentials with a different profile)
+3. Set your AWS Region: `export AWS_REGION=ap-south-1`
+4. Run the script `connectmysqlrds.sh`
+```shell
 ./connectmysqlrds.sh <environment-name> <application-name>
 
 e.g
