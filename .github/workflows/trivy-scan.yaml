@@ -148,4 +148,4 @@ jobs:
     steps:
       - name: Post message
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"🔎 Trivy Security Scan completed for ${{ env.CLUSTER_NAME }}. \n> <https://bahmniindiadistro.github.io/${{github.event.repository.name}}/trivy-reports/|View Report>"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"🔎 Trivy Security Scan completed for ${{ env.CLUSTER_NAME }}. \n> <https://bahmniindiadistro.github.io/helm-umbrella-chart/trivy-reports/|View Report>"}' ${{ secrets.SLACK_WEBHOOK_URL }}
