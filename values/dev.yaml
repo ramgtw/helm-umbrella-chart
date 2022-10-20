@@ -96,3 +96,6 @@ appointments:
 
 implementer-interface:
   enabled: true
+
+abha-verification:
+  enabled: true

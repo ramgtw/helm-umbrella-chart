@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: 
+    branches:
       - main
   repository_dispatch:
     types: ["bahmni-helm-publish-event","bahmniindia-helm-publish-event"]
@@ -148,6 +148,7 @@ jobs:
           --values=values/${{ env.ENVIRONMENT }}.yaml \
           --install \
           --namespace ${{ env.ENVIRONMENT }} --create-namespace
+
   notification:
     name: Slack notification
     needs:
@@ -164,7 +165,7 @@ jobs:
         run: |
           curl -X POST -H 'Content-type: application/json' --data '{"text":"🔴 Bahmni India Distro deployment failed!!! This is where you go look what happened → <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|Umbrella Chart Job #${{github.run_id}}>"}' ${{ secrets.SLACK_WEBHOOK_URL }}
   trigger-e2e-smoke-test-lite:
-      name: Trigger E2E Smoke Test in Dev.Lite 
+      name: Trigger E2E Smoke Test in Dev.Lite
       needs:
         - deploy
       runs-on: ubuntu-latest

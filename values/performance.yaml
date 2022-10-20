@@ -140,3 +140,14 @@ implementer-interface:
   metadata:
     labels:
       environment: performance
+
+clinic-config:
+  metadata:
+    labels:
+      environment: performance
+
+abha-verification:
+  enabled: true
+  metadata:
+    labels:
+      environment: performance

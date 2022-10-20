@@ -140,3 +140,14 @@ implementer-interface:
   metadata:
     labels:
       environment: qa
+
+clinic-config:
+  metadata:
+    labels:
+      environment: qa
+
+abha-verification:
+  enabled: true
+  metadata:
+    labels:
+      environment: qa

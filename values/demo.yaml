@@ -141,3 +141,13 @@ implementer-interface:
     labels:
       environment: demo
 
+clinic-config:
+  metadata:
+    labels:
+      environment: demo
+
+abha-verification:
+  enabled: true
+  metadata:
+    labels:
+      environment: demo

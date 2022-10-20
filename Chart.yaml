@@ -10,7 +10,7 @@ dependencies:
     version: ~1.0.0-0
     condition: openmrs.enabled
 
-  - repository: https://bahmniindiadistro.github.io/helm-charts
+  - repository: https://bahmni.github.io/helm-charts
     name: bahmni-web
     version: ~1.0.0-0
     condition: bahmni-web.enabled
@@ -25,7 +25,7 @@ dependencies:
     version: ~1.0.0-0
     condition: crater.enabled
 
-  - repository: https://bahmniindiadistro.github.io/helm-charts
+  - repository: https://bahmni.github.io/helm-charts
     name: reports
     version: ~1.0.0-0
     condition: reports.enabled
@@ -69,7 +69,7 @@ dependencies:
     name: patient-documents
     version: ~1.0.0-0
     condition: patient-documents.enabled
-  
+
   - repository: https://bahmni.github.io/helm-charts
     name: crater-atomfeed
     version: ~1.0.0-0
@@ -89,3 +89,12 @@ dependencies:
     name: implementer-interface
     version: ~1.0.0-0
     condition: implementer-interface.enabled
+
+  - repository: https://bahmniindiadistro.github.io/helm-charts
+    name: clinic-config
+    version: ~1.0.0-0
+
+  - repository: https://bahmniindiadistro.github.io/helm-charts
+    name: abha-verification
+    version: ~1.0.0-0
+    condition: abha-verification.enabled
