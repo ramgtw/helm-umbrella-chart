@@ -6,6 +6,10 @@ metadata:
     environment: {{ .Values.metadata.labels.environment }}
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.metadata.ingress.PROXY_BODY_SIZE }}
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location = /home {
+          return 301 /bahmni/home;
+      }
 spec:
   ingressClassName: nginx
   rules:
