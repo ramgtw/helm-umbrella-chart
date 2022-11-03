@@ -8,6 +8,7 @@ metadata:
     environment: dev
   ingress:
     PROXY_BODY_SIZE: "7m"
+    ABDM_ROXY_BODY_SIZE: "12m"
 
 openmrs:
   enabled: true

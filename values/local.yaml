@@ -8,6 +8,7 @@ metadata:
     environment: local
   ingress:
     PROXY_BODY_SIZE: "7m"
+    ABDM_ROXY_BODY_SIZE: "12m"
 ingress:
   host: bahmni.k8s
 
