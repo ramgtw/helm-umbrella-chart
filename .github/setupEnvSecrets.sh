@@ -32,4 +32,3 @@ exportWithMask "/$ENVIRONMENT/abdm/GATEWAY_CLIENT_SECRET" 'GATEWAY_CLIENT_SECRET
 exportWithMask "/nonprod/efs/file_system_id" 'EFS_FILESYSTEM_ID'
 exportWithMask "/smtp/access_key" 'MAIL_USER'
 exportWithMask "/smtp/secret" 'MAIL_PASSWORD'
-#exportWithMask "/smtp/smtp_host" 'MAIL_SMTP_HOST'

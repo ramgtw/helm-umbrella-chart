@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - BAH-2589
   repository_dispatch:
     types: ["bahmni-helm-publish-event","bahmniindia-helm-publish-event"]
   workflow_dispatch:
@@ -104,8 +103,17 @@ jobs:
           --set openmrs.secrets.DB_PASSWORD=$OPENMRS_DB_PASSWORD \
           --set openmrs.config.DB_NAME=openmrs_${{ env.ENVIRONMENT }} \
           --set openmrs.secrets.DB_HOST=$RDS_HOST \
-          --set openmrs.secrets.MAIL_USER=ABCDEFGHIJKLMN \
-          --set openmrs.secrets.MAIL_PASSWORD=GHGD65GHJDGHF2MHE4czNtV0RmZ3huYitkOFRMaHh3bEkrT21LcVk= \
+          --set openmrs.secrets.MAIL_USER=$MAIL_USER \
+          --set openmrs.secrets.MAIL_PASSWORD=$MAIL_PASSWORD \
+          --set openmrs.config.MAIL_TRANSPORT_PROTOCOL=smtps \
+          --set openmrs.config.MAIL_SMTP_AUTH=true \
+          --set openmrs.config.MAIL_SMTP_STARTTLS_ENABLE=true \
+          --set openmrs.config.MAIL_SMTP_SSL_ENABLE=true \
+          --set openmrs.config.MAIL_DEBUG=true \
+          --set openmrs.config.SEND_MAIL=true \
+          --set openmrs.config.MAIL_FROM=noreply@mybahmni.in \
+          --set openmrs.config.MAIL_SMTP_HOST=email-smtp.ap-south-1.amazonaws.com \
+          --set openmrs.config.MAIL_SMTP_PORT=587 \
           --set reports.secrets.OPENMRS_DB_HOST=$RDS_HOST \
           --set reports.secrets.OPENMRS_DB_USERNAME=$OPENMRS_DB_USERNAME \
           --set reports.secrets.OPENMRS_DB_PASSWORD=$OPENMRS_DB_PASSWORD \
