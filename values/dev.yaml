@@ -70,9 +70,6 @@ postgresql:
         - ReadWriteMany
     nodeSelector:
       eks.amazonaws.com/nodegroup: nonprod
-  image:
-    repository: postgres
-    tag: alpine
 
 rabbitmq:
   enabled: true
