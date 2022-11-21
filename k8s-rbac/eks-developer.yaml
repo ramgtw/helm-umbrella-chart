@@ -25,6 +25,7 @@ rules:
   resources:
   - pods
   - pods/attach
+  - pods/portforward
   verbs:
   - get
   - list
