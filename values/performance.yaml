@@ -117,6 +117,9 @@ rabbitmq:
       - ReadWriteMany
   nodeSelector:
     eks.amazonaws.com/nodegroup: performance
+  image:
+    repository: rabbitmq
+    tag: alpine
 
 patient-documents:
   enabled: true
