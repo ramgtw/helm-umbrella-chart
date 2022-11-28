@@ -96,6 +96,11 @@ jobs:
         run: helm dependency update
       - name: List Helm Dependencies
         run: ls charts
+      # - name: Use profiling tagged image for performance env
+      #   if: ${{ github.event.inputs.environment == 'performance' }}
+      #   run: |
+      #     ./.github/profiling.sh
+      #     aws route53 change-resource-record-sets --hosted-zone-id ${{ secrets.HOSTED_ZONE_ID }} --change-batch file://recordset
       - name: Helm Upgrade
         run: |
           helm upgrade bahmni-${{ env.ENVIRONMENT }} . \

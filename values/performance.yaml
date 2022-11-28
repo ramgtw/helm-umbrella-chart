@@ -15,6 +15,8 @@ openmrs:
   metadata:
     labels:
       environment: performance
+  image:
+    tag: profiling
 bahmni-web:
   enabled: true
   metadata:
