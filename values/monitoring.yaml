@@ -15,7 +15,7 @@ grafana:
       auth_url: https://github.com/login/oauth/authorize
       token_url: https://github.com/login/oauth/access_token
       api_url: https://api.github.com/user
-      allowed_organizations: Bahmni BahmniIndiaDistro IPLit
+      allowed_organizations: Bahmni
     users:
       viewers_can_edit: true
   additionalDataSources:
@@ -58,7 +58,7 @@ prometheus:
     nodeSelector:
       eks.amazonaws.com/nodegroup: nonprod
     additionalScrapeConfigs:
-      - job_name: "java"
-        metrics_path: "/metrics"
+      - job_name: 'java'
+        metrics_path: '/metrics'
         static_configs:
-          - targets: ["openmrs.performance.svc.cluster.local:8280"]
+          - targets: ['openmrs.performance.svc.cluster.local:8280']

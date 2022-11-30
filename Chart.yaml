@@ -1,11 +1,11 @@
 apiVersion: v2
-name: bahmni-india-distro
-description: Helm Umbrella chart for Bahmni India Distribution
+name: bahmni
+description: Helm Umbrella chart for Bahmni
 type: application
 version: 1.0.0
 
 dependencies:
-  - repository: https://bahmniindiadistro.github.io/helm-charts
+  - repository: https://bahmni.github.io/helm-charts
     name: openmrs
     version: ~1.0.0-0
     condition: openmrs.enabled
@@ -30,41 +30,6 @@ dependencies:
     version: ~1.0.0-0
     condition: reports.enabled
 
-  - repository: https://bahmniindiadistro.github.io/helm-charts
-    name: hip
-    version: ~1.0.0-0
-    condition: hip.enabled
-
-  - repository: https://bahmniindiadistro.github.io/helm-charts
-    name: hiu
-    version: ~1.0.0-0
-    condition: hiu.enabled
-
-  - repository: https://bahmniindiadistro.github.io/helm-charts
-    name: hiu-db
-    version: ~1.0.0-0
-    condition: hiu-db.enabled
-
-  - repository: https://bahmniindiadistro.github.io/helm-charts
-    name: hiu-ui
-    version: ~1.0.0-0
-    condition: hiu-ui.enabled
-
-  - repository: https://bahmniindiadistro.github.io/helm-charts
-    name: otp-service
-    version: ~1.0.0-0
-    condition: otp-service.enabled
-
-  - repository: https://charts.bitnami.com/bitnami
-    name: postgresql
-    version: 12.1.2
-    condition: postgresql.enabled
-
-  - repository: https://charts.bitnami.com/bitnami
-    name: rabbitmq
-    version: 11.1.2
-    condition: rabbitmq.enabled
-
   - repository: https://bahmni.github.io/helm-charts
     name: patient-documents
     version: ~1.0.0-0
@@ -74,11 +39,6 @@ dependencies:
     name: crater-atomfeed
     version: ~1.0.0-0
     condition: crater-atomfeed.enabled
-
-  - repository: https://bahmniindiadistro.github.io/helm-charts
-    name: hip-atomfeed
-    version: ~1.0.0-0
-    condition: hip-atomfeed.enabled
 
   - repository: https://bahmni.github.io/helm-charts
     name: appointments
@@ -93,8 +53,3 @@ dependencies:
   - repository: https://bahmniindiadistro.github.io/helm-charts
     name: clinic-config
     version: ~1.0.0-0
-
-  - repository: https://bahmniindiadistro.github.io/helm-charts
-    name: abha-verification
-    version: ~1.0.0-0
-    condition: abha-verification.enabled
