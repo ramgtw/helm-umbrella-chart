@@ -1,0 +1,159 @@
+global:
+  storageClass: bahmni-efs-sc
+  nodeSelector:
+    eks.amazonaws.com/nodegroup: performance
+
+metadata:
+  labels:
+    environment: performance
+  ingress:
+    PROXY_BODY_SIZE: "7m"
+    ABDM_PROXY_BODY_SIZE: "30m"
+
+openmrs:
+  enabled: true
+  metadata:
+    labels:
+      environment: performance
+bahmni-web:
+  enabled: true
+  metadata:
+    labels:
+      environment: performance
+bahmni-lab:
+  enabled: true
+  metadata:
+    labels:
+      environment: performance
+crater:
+  enabled: true
+  metadata:
+    labels:
+      environment: performance
+  config:
+    AUTO_INSTALL: "true"
+    ADMIN_NAME: Super Man
+    COMPANY_NAME: Bahmni
+    COMPANY_SLUG: bahmni
+    COUNTRY_ID: 101
+  secrets:
+    ADMIN_EMAIL: "superman@bahmni.org"
+reports:
+  enabled: true
+  metadata:
+    labels:
+      environment: performance
+  config:
+    OPENMRS_HOST: "openmrs"
+hiu:
+  enabled: true
+  config:
+    POSTGRES_HOST: "bahmni-performance-postgresql"
+    RABBITMQ_HOST: "bahmni-performance-rabbitmq"
+    HIU_ID: "Bahmni-Perf"
+    HIU_NAME: "Bahmni-Perf"
+  metadata:
+    labels:
+      environment: performance
+hiu-db:
+  enabled: true
+  config:
+    JAVA_TOOL_OPTIONS: "-Djdbc.url=jdbc:postgresql://bahmni-performance-postgresql:5432/ -Djdbc.username=postgres -Djdbc.password=welcome -Djdbc.database=health_information_user"
+  metadata:
+    labels:
+      environment: performance
+hiu-ui:
+  enabled: true
+  config:
+    POSTGRES_HOST: bahmni-performance-postgresql
+    RABBITMQ_HOST: bahmni-performance-rabbitmq
+  metadata:
+    labels:
+      environment: performance
+hip:
+  enabled: true
+  config:
+    CONNECTION_STRING: "Host=bahmni-performance-postgresql;Port=5432;Username=postgres;Password=welcome;Database=hipservice"
+    RABBITMQ_HOST: "bahmni-performance-rabbitmq"
+    BAHMNI_ID: "Bahmni-Perf"
+  metadata:
+    labels:
+      environment: performance
+otp-service:
+  enabled: true
+  config:
+    CONNECTION_STRING: "Host=bahmni-performance-postgresql;Port=5432;Username=postgres;Password=welcome;Database=otpservice;"
+  metadata:
+    labels:
+      environment: performance
+hip-atomfeed:
+  enabled: true
+  config:
+    DATABASE_URL: "jdbc:postgresql://bahmni-performance-postgresql:5432/"
+  metadata:
+    labels:
+      environment: performance
+
+postgresql:
+  enabled: true
+  volumePermissions:
+    enabled: true
+  primary:
+    persistence:
+      subPath: performance
+      storageClass: bahmni-efs-sc
+      accessModes:
+        - ReadWriteMany
+    nodeSelector:
+      eks.amazonaws.com/nodegroup: performance
+  image:
+    tag: 14-debian-11
+
+rabbitmq:
+  enabled: true
+  auth:
+    erlangCookie: bahmni
+  persistence:
+    storageClass: bahmni-efs-sc
+    accessModes:
+      - ReadWriteMany
+  nodeSelector:
+    eks.amazonaws.com/nodegroup: performance
+  image:
+    repository: rabbitmq
+    tag: alpine
+
+patient-documents:
+  enabled: true
+  metadata:
+    labels:
+      environment: performance
+  config:
+    OPENMRS_HOST: "openmrs"
+
+appointments:
+  enabled: true
+
+
+crater-atomfeed:
+  enabled: true
+  metadata:
+    labels:
+      environment: performance
+
+implementer-interface:
+  enabled: true
+  metadata:
+    labels:
+      environment: performance
+
+clinic-config:
+  metadata:
+    labels:
+      environment: performance
+
+abha-verification:
+  enabled: true
+  metadata:
+    labels:
+      environment: performance

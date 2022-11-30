@@ -7,8 +7,8 @@ metadata:
   labels:
     environment: local
   ingress:
-    PROXY_BODY_SIZE: '7m'
-    ABDM_PROXY_BODY_SIZE: '30m'
+    PROXY_BODY_SIZE: "7m"
+    ABDM_PROXY_BODY_SIZE: "30m"
 ingress:
   host: bahmni.k8s
 
@@ -23,30 +23,30 @@ openmrs:
 bahmni-web:
   enabled: true
 bahmni-lab:
-  enabled: true
+  enabled: false
 crater:
   enabled: true
   config:
-    APP_URL: http://payments-bahmni.k8s
+    APP_URL: http://payments-bahmni.local
     DB_DATABASE: crater
     DB_HOST: mysql
     DB_PORT: 3306
-    SANCTUM_STATEFUL_DOMAINS: payments-bahmni.k8s
-    SESSION_DOMAIN: payments-bahmni.k8s
-    AUTO_INSTALL: 'true'
+    SANCTUM_STATEFUL_DOMAINS: payments-bahmni.local
+    SESSION_DOMAIN: payments-bahmni.local
+    AUTO_INSTALL: "true"
     ADMIN_NAME: Super Man
     COMPANY_NAME: Bahmni
     COMPANY_SLUG: bahmni
     COUNTRY_ID: 101
   secrets:
-    DB_USERNAME: 'crater-user'
-    DB_PASSWORD: 'password'
-    ADMIN_EMAIL: 'superman@bahmni.org'
-    ADMIN_PASSWORD: 'crater123'
+    DB_USERNAME: "crater-user"
+    DB_PASSWORD: "password"
+    ADMIN_EMAIL: "superman@bahmni.org"
+    ADMIN_PASSWORD: "crater123"
 reports:
-  enabled: true
+  enabled: false
   config:
-    OPENMRS_HOST: 'openmrs'
+    OPENMRS_HOST: "openmrs"
     OPENMRS_DB_NAME: openmrs
     REPORTS_DB_NAME: reports
   secrets:
@@ -56,16 +56,51 @@ reports:
     REPORTS_DB_SERVER: mysql
     REPORTS_DB_USERNAME: reports-user
     REPORTS_DB_PASSWORD: password
+hiu:
+  enabled: false
+  config:
+    POSTGRES_HOST: bahmni-local-postgresql
+    RABBITMQ_HOST: bahmni-local-rabbitmq
+hiu-db:
+  enabled: false
+  config:
+    JAVA_TOOL_OPTIONS: "-Djdbc.url=jdbc:postgresql://bahmni-local-postgresql:5432/ -Djdbc.username=postgres -Djdbc.password=welcome -Djdbc.database=health_information_user"
+hiu-ui:
+  enabled: false
+hip:
+  enabled: false
+  config:
+    CONNECTION_STRING: "Host=bahmni-local-postgresql;Port=5432;Username=postgres;Password=welcome;Database=hipservice"
+    RABBITMQ_HOST: "bahmni-local-rabbitmq"
+otp-service:
+  enabled: false
+postgresql:
+  enabled: false
+rabbit-mq:
+  enabled: false
+hip-atomfeed:
+  enabled: false
+
+rabbitmq:
+  auth:
+    username: bahmni
+    password: bahmni
+    erlangCookie: bahmni
+
 patient-documents:
   enabled: true
   config:
-    OPENMRS_HOST: 'openmrs'
+    OPENMRS_HOST: "openmrs"
 
 appointments:
   enabled: true
+
 
 crater-atomfeed:
   enabled: true
 
 implementer-interface:
   enabled: true
+
+abha-verification:
+  enabled: false

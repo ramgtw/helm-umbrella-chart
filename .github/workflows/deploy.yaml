@@ -1,0 +1,194 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  repository_dispatch:
+    types: ["bahmni-helm-publish-event","bahmniindia-helm-publish-event"]
+  workflow_dispatch:
+    inputs:
+      enable_db_setup:
+        description: 'Enable this to create databases'
+        required: true
+        type: boolean
+        default: false
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        type: choice
+        default: dev
+        options:
+          - dev
+          - qa
+          - demo
+          - performance
+env:
+  ENVIRONMENT: ${{ github.event.inputs.environment || 'dev'}}
+  ENVIRONMENT_DNS: ${{ (github.event.inputs.environment || 'dev') == 'demo' && 'lite.mybahmni.in' || format('{0}.{1}', github.event.inputs.environment || 'dev', 'lite.mybahmni.in') }}
+
+jobs:
+  deploy:
+    name: Deploy to ${{ github.event.inputs.environment || 'dev'}} environment
+    concurrency: ${{ github.event.inputs.environment || 'dev'}}
+    environment:
+      name: ${{ github.event.inputs.environment || 'dev'}}
+      url: ${{ (github.event.inputs.environment || 'dev') == 'demo' && 'lite.mybahmni.in' || format('{0}.{1}', github.event.inputs.environment || 'dev', 'lite.mybahmni.in') }}
+    runs-on: ubuntu-latest
+    env:
+      CLUSTER_NAME: bahmni-cluster-nonprod
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.BAHMNI_AWS_ID }}
+          aws-secret-access-key: ${{ secrets.BAHMNI_AWS_SECRET }}
+          aws-region: ${{ secrets.BAHMNI_AWS_REGION }}
+          role-to-assume: ${{ secrets.BAHMNI_INFRA_ADMIN_ROLE }}
+          role-duration-seconds: 900 # 15 mins
+          role-session-name: BahmniInfraAdminSession
+      - name: Authorise Kubectl with EKS
+        run: aws eks update-kubeconfig --name $CLUSTER_NAME
+      - name: Install Nginx Ingress
+        run: |
+          wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/aws/nlb-with-tls-termination/deploy.yaml
+          sed  -i.bak "s|XXX.XXX.XXX/XX|10.0.0.0/16|" deploy.yaml
+          sed  -i.bak "s|arn:aws:acm:us-west-2:XXXXXXXX:certificate/XXXXXX-XXXXXXX-XXXXXXX-XXXXXXXX|${{ secrets.MYBAHMNI_CERT_ARN }}|" deploy.yaml
+          kubectl apply -f deploy.yaml
+      - name: Upsert Route53 A record with INGRESS_DNS
+        run: |
+          INGRESS_DNS=$(kubectl -n ingress-nginx  get svc ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].hostname}")
+          jq --arg ingress_dns "$INGRESS_DNS" \
+             --arg environment_dns "$ENVIRONMENT_DNS" \
+             '.Changes[].ResourceRecordSet.AliasTarget.DNSName = $ingress_dns | .Changes[0].ResourceRecordSet.Name = $environment_dns | .Changes[1].ResourceRecordSet.Name = "payments-"+$environment_dns' \
+              aws/route53/lite.mybahmni.in.json > recordset
+          aws route53 change-resource-record-sets --hosted-zone-id ${{ secrets.HOSTED_ZONE_ID }} --change-batch file://recordset
+      - name: Setup Environment secrets
+        shell: bash
+        run: bash .github/setupEnvSecrets.sh ${{ env.ENVIRONMENT }}
+      - name: Setup databases
+        if: ${{ github.event.inputs.enable_db_setup == 'true' }}
+        run: |
+          helm install db-setup db-setup --repo https://bahmni.github.io/helm-charts --devel --wait --wait-for-jobs --atomic --timeout 1m \
+          --namespace ${{ env.ENVIRONMENT }} --create-namespace \
+          --set DB_HOST=$RDS_HOST \
+          --set DB_ROOT_USERNAME=$RDS_USERNAME \
+          --set DB_ROOT_PASSWORD=$RDS_PASSWORD \
+          --set databases.openmrs.DB_NAME=openmrs_${{ env.ENVIRONMENT }} \
+          --set databases.openmrs.USERNAME=$OPENMRS_DB_USERNAME \
+          --set databases.openmrs.PASSWORD=$OPENMRS_DB_PASSWORD \
+          --set databases.crater.DB_NAME=crater_${{ env.ENVIRONMENT }} \
+          --set databases.crater.USERNAME=$CRATER_DB_USERNAME \
+          --set databases.crater.PASSWORD=$CRATER_DB_PASSWORD \
+          --set databases.crater_atomfeed.DB_NAME=crater_atomfeed_${{ env.ENVIRONMENT }} \
+          --set databases.crater_atomfeed.USERNAME=$CRATER_ATOMFEED_DB_USERNAME \
+          --set databases.crater_atomfeed.PASSWORD=$CRATER_ATOMFEED_DB_PASSWORD \
+          --set databases.reports.DB_NAME=bahmni_reports_${{ env.ENVIRONMENT }} \
+          --set databases.reports.USERNAME=$REPORTS_DB_USERNAME \
+          --set databases.reports.PASSWORD=$REPORTS_DB_PASSWORD
+
+      - name: Deleting db-setup helm release
+        if: ${{ github.event.inputs.enable_db_setup == 'true' }}
+        run: helm uninstall db-setup --namespace ${{ env.ENVIRONMENT }}
+      - name: Helm Dependency Update
+        run: helm dependency update
+      - name: List Helm Dependencies
+        run: ls charts
+      - name: Helm Upgrade
+        run: |
+          helm upgrade bahmni-${{ env.ENVIRONMENT }} . \
+          --set openmrs.secrets.OMRS_DB_USERNAME=$OPENMRS_DB_USERNAME \
+          --set openmrs.secrets.OMRS_DB_PASSWORD=$OPENMRS_DB_PASSWORD \
+          --set openmrs.config.OMRS_DB_NAME=openmrs_${{ env.ENVIRONMENT }} \
+          --set openmrs.secrets.OMRS_DB_HOSTNAME=$RDS_HOST \
+          --set openmrs.secrets.MAIL_USER=$MAIL_USER \
+          --set openmrs.secrets.MAIL_PASSWORD=$MAIL_PASSWORD \
+          --set openmrs.config.SEND_MAIL=true \
+          --set openmrs.config.MAIL_FROM=noreply@mybahmni.in \
+          --set openmrs.config.MAIL_SMTP_HOST=email-smtp.ap-south-1.amazonaws.com \
+          --set openmrs.config.MAIL_SMTP_PORT=587 \
+          --set reports.secrets.OPENMRS_DB_HOST=$RDS_HOST \
+          --set reports.secrets.OPENMRS_DB_USERNAME=$OPENMRS_DB_USERNAME \
+          --set reports.secrets.OPENMRS_DB_PASSWORD=$OPENMRS_DB_PASSWORD \
+          --set reports.config.OPENMRS_DB_NAME=openmrs_${{ env.ENVIRONMENT }} \
+          --set reports.secrets.REPORTS_DB_SERVER=$RDS_HOST \
+          --set reports.secrets.REPORTS_DB_USERNAME=$REPORTS_DB_USERNAME \
+          --set reports.secrets.REPORTS_DB_PASSWORD=$REPORTS_DB_PASSWORD \
+          --set reports.config.REPORTS_DB_NAME=bahmni_reports_${{ env.ENVIRONMENT }} \
+          --set crater.config.APP_URL=https://payments-${{env.ENVIRONMENT_DNS}} \
+          --set crater.config.DB_DATABASE=crater_${{ env.ENVIRONMENT }} \
+          --set crater.config.DB_HOST=$RDS_HOST \
+          --set crater.config.SANCTUM_STATEFUL_DOMAINS=payments-${{env.ENVIRONMENT_DNS}} \
+          --set crater.config.SESSION_DOMAIN=payments-${{env.ENVIRONMENT_DNS}} \
+          --set crater.secrets.DB_USERNAME=$CRATER_DB_USERNAME \
+          --set crater.secrets.DB_PASSWORD=$CRATER_DB_PASSWORD \
+          --set crater.secrets.ADMIN_PASSWORD=$CRATER_ADMIN_PASSWORD \
+          --set hip.secrets.GATEWAY_CLIENT_ID=$GATEWAY_CLIENT_ID \
+          --set hip.secrets.GATEWAY_CLIENT_SECRET=$GATEWAY_CLIENT_SECRET \
+          --set hip.secrets.OPENMRS_PASSWORD=Admin123 \
+          --set hip.config.BAHMNI_URL=https://${{env.ENVIRONMENT_DNS}}/openmrs \
+          --set hip.config.RABBITMQ_USERNAME=$MQ_USERNAME \
+          --set hip.config.RABBITMQ_PASSWORD=$MQ_PASSWORD \
+          --set hiu.secrets.HIU_CLIENT_ID=$GATEWAY_CLIENT_ID \
+          --set hiu.secrets.HIU_CLIENT_SECRET=$GATEWAY_CLIENT_SECRET \
+          --set hiu.config.DATA_PUSH_URL=https://${{env.ENVIRONMENT_DNS}}/hiu-api/data/notification \
+          --set hiu.config.RABBITMQ_USERNAME=$MQ_USERNAME \
+          --set hiu.config.RABBITMQ_PASSWORD=$MQ_PASSWORD \
+          --set hiu-ui.config.BACKEND_BASE_URL=https://${{env.ENVIRONMENT_DNS}} \
+          --set global.postgresql.auth.postgresPassword=$PSQL_PASSWORD \
+          --set rabbitmq.auth.username=$MQ_USERNAME \
+          --set rabbitmq.auth.password=$MQ_PASSWORD \
+          --set ingress.host=${{env.ENVIRONMENT_DNS}} \
+          --set efs.fileSystemId=${{env.EFS_FILESYSTEM_ID}} \
+          --set crater-atomfeed.config.CRATER_ATOMFEED_DB_HOST=$RDS_HOST \
+          --set crater-atomfeed.config.CRATER_ATOMFEED_DB_NAME=crater_atomfeed_${{ env.ENVIRONMENT }} \
+          --set crater-atomfeed.config.CRATER_URL=https://payments-${{env.ENVIRONMENT_DNS}} \
+          --set crater-atomfeed.secrets.OPENMRS_ATOMFEED_USER=superman \
+          --set crater-atomfeed.secrets.OPENMRS_ATOMFEED_PASSWORD=Admin123 \
+          --set crater-atomfeed.secrets.CRATER_USERNAME=superman@bahmni.org \
+          --set crater-atomfeed.secrets.CRATER_PASSWORD=$CRATER_ADMIN_PASSWORD \
+          --set crater-atomfeed.secrets.CRATER_ATOMFEED_DB_USERNAME=$CRATER_ATOMFEED_DB_USERNAME \
+          --set crater-atomfeed.secrets.CRATER_ATOMFEED_DB_PASSWORD=$CRATER_ATOMFEED_DB_PASSWORD \
+          --values=values/${{ env.ENVIRONMENT }}.yaml \
+          --install \
+          --namespace ${{ env.ENVIRONMENT }} --create-namespace
+
+  notification:
+    name: Slack notification
+    needs:
+      - deploy
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Success
+        if: ${{ needs.deploy.result == 'success' }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":">🟢 Bahmni India Distro deployed. \n>*Bahmni* https://${{env.ENVIRONMENT_DNS}} \n>*Payments* https://payments-${{env.ENVIRONMENT_DNS}} \n> <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|Umbrella Chart Job #${{github.run_id}}>"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Failure
+        if: ${{ needs.deploy.result == 'failure' }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"🔴 Bahmni India Distro deployment failed!!! This is where you go look what happened → <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|Umbrella Chart Job #${{github.run_id}}>"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+  trigger-e2e-smoke-test-lite:
+      name: Trigger E2E Smoke Test in Dev.Lite
+      needs:
+        - deploy
+      runs-on: ubuntu-latest
+      if: ${{ ((github.event.inputs.environment || 'dev') == 'dev') && (needs.deploy.result == 'success') }}
+      steps:
+        - name: Create repository_dispatch
+          env:
+            REPOSITORY_NAME: "bahmni-e2e-tests"
+            ORG_NAME: "Bahmni"
+            EVENT_TYPE: "Smoke-Test-Dev-Lite"
+            TEST_CONTEXT: "clinic & smoke"
+          run: |
+            trigger_result=$(curl -s -o trigger_response.txt -w "%{http_code}" -X POST -H "Accept: application/vnd.github.v3+json" -H 'authorization: Bearer ${{ secrets.BAHMNI_PAT }}' https://api.github.com/repos/${ORG_NAME}/${REPOSITORY_NAME}/dispatches -d '{"event_type":"'"${EVENT_TYPE}"'","client_payload":{"context":"'"${TEST_CONTEXT}"'"}}')
+            if [ $trigger_result == 204 ];then
+              echo "Trigger to $ORG_NAME/$REPOSITORY_NAME Success"
+            else
+              echo "Trigger to $ORG_NAME/$REPOSITORY_NAME Failed"
+              cat trigger_response.txt
+              exit 1
+            fi

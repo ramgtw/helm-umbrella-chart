@@ -1,0 +1,159 @@
+global:
+  storageClass: bahmni-efs-sc
+  nodeSelector:
+    eks.amazonaws.com/nodegroup: nonprod
+
+metadata:
+  labels:
+    environment: qa
+  ingress:
+    PROXY_BODY_SIZE: "7m"
+    ABDM_PROXY_BODY_SIZE: "30m"
+
+openmrs:
+  enabled: true
+  metadata:
+    labels:
+      environment: qa
+bahmni-web:
+  enabled: true
+  metadata:
+    labels:
+      environment: qa
+bahmni-lab:
+  enabled: true
+  metadata:
+    labels:
+      environment: qa
+crater:
+  enabled: true
+  metadata:
+    labels:
+      environment: qa
+  config:
+    AUTO_INSTALL: "true"
+    ADMIN_NAME: Super Man
+    COMPANY_NAME: Bahmni
+    COMPANY_SLUG: bahmni
+    COUNTRY_ID: 101
+  secrets:
+    ADMIN_EMAIL: "superman@bahmni.org"
+reports:
+  enabled: true
+  metadata:
+    labels:
+      environment: qa
+  config:
+    OPENMRS_HOST: "openmrs"
+hiu:
+  enabled: true
+  config:
+    POSTGRES_HOST: "bahmni-qa-postgresql"
+    RABBITMQ_HOST: "bahmni-qa-rabbitmq"
+    HIU_ID: "Bahmni-QA"
+    HIU_NAME: "Bahmni-QA"
+  metadata:
+    labels:
+      environment: qa
+hiu-db:
+  enabled: true
+  config:
+    JAVA_TOOL_OPTIONS: "-Djdbc.url=jdbc:postgresql://bahmni-qa-postgresql:5432/ -Djdbc.username=postgres -Djdbc.password=welcome -Djdbc.database=health_information_user"
+  metadata:
+    labels:
+      environment: qa
+hiu-ui:
+  enabled: true
+  config:
+    POSTGRES_HOST: bahmni-qa-postgresql
+    RABBITMQ_HOST: bahmni-qa-rabbitmq
+  metadata:
+    labels:
+      environment: qa
+hip:
+  enabled: true
+  config:
+    CONNECTION_STRING: "Host=bahmni-qa-postgresql;Port=5432;Username=postgres;Password=welcome;Database=hipservice"
+    RABBITMQ_HOST: "bahmni-qa-rabbitmq"
+    BAHMNI_ID: "Bahmni-QA"
+  metadata:
+    labels:
+      environment: qa
+otp-service:
+  enabled: true
+  config:
+    CONNECTION_STRING: "Host=bahmni-qa-postgresql;Port=5432;Username=postgres;Password=welcome;Database=otpservice;"
+  metadata:
+    labels:
+      environment: qa
+hip-atomfeed:
+  enabled: true
+  config:
+    DATABASE_URL: "jdbc:postgresql://bahmni-qa-postgresql:5432/"
+  metadata:
+    labels:
+      environment: qa
+
+postgresql:
+  enabled: true
+  volumePermissions:
+    enabled: true
+  primary:
+    persistence:
+      subPath: qa
+      storageClass: bahmni-efs-sc
+      accessModes:
+        - ReadWriteMany
+    nodeSelector:
+      eks.amazonaws.com/nodegroup: nonprod
+  image:
+    tag: 14-debian-11
+
+rabbitmq:
+  enabled: true
+  auth:
+    erlangCookie: bahmni
+  persistence:
+    storageClass: bahmni-efs-sc
+    accessModes:
+      - ReadWriteMany
+  nodeSelector:
+    eks.amazonaws.com/nodegroup: nonprod
+  image:
+    repository: rabbitmq
+    tag: alpine
+
+patient-documents:
+  enabled: true
+  metadata:
+    labels:
+      environment: qa
+  config:
+    OPENMRS_HOST: "openmrs"
+
+appointments:
+  enabled: true
+
+
+crater-atomfeed:
+  enabled: true
+  metadata:
+    labels:
+      environment: qa
+
+implementer-interface:
+  enabled: true
+  metadata:
+    labels:
+      environment: qa
+
+clinic-config:
+  metadata:
+    labels:
+      environment: qa
+
+abha-verification:
+  enabled: true
+  metadata:
+    labels:
+      environment: qa
