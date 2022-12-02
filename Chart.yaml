@@ -90,7 +90,7 @@ dependencies:
     version: ~1.0.0-0
     condition: implementer-interface.enabled
 
-  - repository: https://bahmniindiadistro.github.io/helm-charts
+  - repository: https://bahmni.github.io/helm-charts
     name: clinic-config
     version: ~1.0.0-0
 

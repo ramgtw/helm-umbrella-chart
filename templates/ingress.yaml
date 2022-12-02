@@ -42,16 +42,6 @@ spec:
                   number: 8051
           {{- end }}
 
-          {{- if index .Values "otp-service" "enabled" }}
-          - path: /otp-service
-            pathType: Prefix
-            backend:
-              service:
-                name: otp-service
-                port:
-                  number: 80
-          {{- end }}
-
           {{- if index .Values "patient-documents" "enabled" }}
           - path: /document_images
             pathType: Prefix
@@ -194,27 +184,14 @@ spec:
                 port:
                   number: 5000
           {{- end }}
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: profiler-ingress
-  labels:
-    environment: performance
-  annotations:
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      add_header Set-Cookie "reporting_session=$cookie_JSESSIONID;Path=/;Max-Age=86400";
-    nginx.ingress.kubernetes.io/proxy-body-size: 7m
-spec:
-  ingressClassName: nginx
-  rules:
-    - host: profiling.lite.mybahmni.in
-      http:
-        paths:
-          - path: /
+
+          {{- if index .Values "otp-service" "enabled" }}
+          - path: /otp-service/(.*)
             pathType: Prefix
             backend:
               service:
-                name: openmrs
+                name: otp-service
                 port:
-                  number: 10001
+                  number: 80
+          {{- end }}
+
