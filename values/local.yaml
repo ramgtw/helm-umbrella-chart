@@ -1,8 +1,3 @@
-global:
-  postgresql:
-    auth:
-      postgresPassword: welcome
-
 metadata:
   labels:
     environment: local
@@ -17,9 +12,11 @@ openmrs:
   secrets:
     OMRS_DB_USERNAME: openmrs-user
     OMRS_DB_PASSWORD: password
-    OMRS_DB_HOSTNAME: mysql
+    OMRS_DB_HOSTNAME: openmrsdb
   config:
     OMRS_DB_NAME: openmrs
+    DEBUG: true
+    OMRS_CREATE_TABLES: true
 bahmni-web:
   enabled: true
 bahmni-lab:
@@ -29,7 +26,7 @@ crater:
   config:
     APP_URL: http://payments-bahmni.local
     DB_DATABASE: crater
-    DB_HOST: mysql
+    DB_HOST: openmrsdb
     DB_PORT: 3306
     SANCTUM_STATEFUL_DOMAINS: payments-bahmni.local
     SESSION_DOMAIN: payments-bahmni.local
@@ -50,10 +47,10 @@ reports:
     OPENMRS_DB_NAME: openmrs
     REPORTS_DB_NAME: reports
   secrets:
-    OPENMRS_DB_HOST: mysql
+    OPENMRS_DB_HOST: openmrsdb
     OPENMRS_DB_USERNAME: openmrs-user
     OPENMRS_DB_PASSWORD: password
-    REPORTS_DB_SERVER: mysql
+    REPORTS_DB_SERVER: openmrsdb
     REPORTS_DB_USERNAME: reports-user
     REPORTS_DB_PASSWORD: password
 hiu:
