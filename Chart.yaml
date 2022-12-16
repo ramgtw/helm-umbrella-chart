@@ -2,7 +2,7 @@ apiVersion: v2
 name: bahmni-india-distro
 description: Helm Umbrella chart for Bahmni India Distribution
 type: application
-version: 1.0.0
+version: 1.0.0-beta
 
 dependencies:
   - repository: https://bahmniindiadistro.github.io/helm-charts
