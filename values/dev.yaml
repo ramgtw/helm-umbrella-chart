@@ -105,3 +105,18 @@ implementer-interface:
 
 abha-verification:
   enabled: true
+
+bahmni-metabase:
+  enabled: true
+  config:
+    MB_DB_TYPE: postgres
+    MB_DB_DBNAME: 'metabase'
+    MB_DB_PORT:  5432
+    OPENMRS_DB_TYPE: 'mysql'
+  secrets:
+    MB_ADMIN_EMAIL: 'admin@metabase.devlite'
+    MB_ADMIN_FIRST_NAME: 'Admin'
+    MB_ADMIN_PASSWORD: 'Admin@123'
+    MB_DB_USER: 'metabase-user'
+    MB_DB_PASS: 'password'
+    MB_DB_HOST: 'bahmni-dev-postgresql'
