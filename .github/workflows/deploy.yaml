@@ -155,6 +155,7 @@ jobs:
           --set bahmni-metabase.secrets.OPENMRS_DB_USERNAME=$OPENMRS_DB_USERNAME \
           --set bahmni-metabase.secrets.OPENMRS_DB_PASSWORD=$OPENMRS_DB_PASSWORD \
           --set bahmni-metabase.config.OPENMRS_DB_NAME=openmrs_${{ env.ENVIRONMENT }} \
+          --set bahmni-metabase.secrets.DB_CONNECTIONS='[{"DB_HOST": "${{ env.RDS_HOST }}"\,"DB_NAME": "openmrs_${{ env.ENVIRONMENT }}"\,"DB_USERNAME": "${{ env.OPENMRS_DB_USERNAME }}"\,"DB_PASSWORD": "${{ env.OPENMRS_DB_PASSWORD }}"\,"DB_TYPE": "mysql"\,"NAME": "openmrs"}]' \
           --values=values/${{ env.ENVIRONMENT }}.yaml \
           --install \
           --namespace ${{ env.ENVIRONMENT }} --create-namespace
