@@ -32,3 +32,5 @@ exportWithMask "/$ENVIRONMENT/abdm/GATEWAY_CLIENT_SECRET" 'GATEWAY_CLIENT_SECRET
 exportWithMask "/nonprod/efs/file_system_id" 'EFS_FILESYSTEM_ID'
 exportWithMask "/smtp/access_key" 'MAIL_USER'
 exportWithMask "/smtp/secret" 'MAIL_PASSWORD'
+exportWithMask "/$ENVIRONMENT/metabase/ADMIN_EMAIL" 'MB_ADMIN_EMAIL'
+exportWithMask "/$ENVIRONMENT/metabase/ADMIN_PASSWORD" 'MB_ADMIN_PASSWORD'
