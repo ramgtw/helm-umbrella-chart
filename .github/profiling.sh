@@ -18,27 +18,28 @@ cd ../
 #              '.Changes[].ResourceRecordSet.AliasTarget.DNSName = $ingress_dns | .Changes[0].ResourceRecordSet.Name = $environment_dns | .Changes[1].ResourceRecordSet.Name = "payments-"+$environment_dns' \
 #               aws/route53/lite.mybahmni.in.json > recordset
 
-# ( echo 'apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: profiler-ingress
-#   labels:
-#     environment: performance
-#   annotations:
-#     nginx.ingress.kubernetes.io/configuration-snippet: |
-#       add_header Set-Cookie "reporting_session=$cookie_JSESSIONID;Path=/;Max-Age=86400";
-#     nginx.ingress.kubernetes.io/proxy-body-size: 7m
-# spec:
-#   ingressClassName: nginx
-#   rules:
-#     - host: profiling.lite.mybahmni.in
-#       http:
-#         paths:
-#           - path: /
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name: openmrs
-#                 port:
-#                   number: 10001') > ./templates/profiling_ingress.yaml
-
+( echo 'apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: profiler-ingress
+  labels:
+    environment: performance
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      add_header Set-Cookie "reporting_session=$cookie_JSESSIONID;Path=/;Max-Age=86400";
+    nginx.ingress.kubernetes.io/proxy-body-size: 7m
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: profiling.lite.mybahmni.in
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: openmrs
+                port:
+                  number: 10001') > ./templates/profiling_ingress.yaml
