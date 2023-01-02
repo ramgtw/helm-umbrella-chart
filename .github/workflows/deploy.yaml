@@ -151,6 +151,14 @@ jobs:
           --set crater-atomfeed.secrets.CRATER_PASSWORD=$CRATER_ADMIN_PASSWORD \
           --set crater-atomfeed.secrets.CRATER_ATOMFEED_DB_USERNAME=$CRATER_ATOMFEED_DB_USERNAME \
           --set crater-atomfeed.secrets.CRATER_ATOMFEED_DB_PASSWORD=$CRATER_ATOMFEED_DB_PASSWORD \
+          --set bahmni-metabase.config.OPENMRS_DB_NAME=openmrs_${{ env.ENVIRONMENT }} \
+          --set bahmni-metabase.secrets.MB_ADMIN_EMAIL=$MB_ADMIN_EMAIL \
+          --set bahmni-metabase.secrets.MB_ADMIN_PASSWORD=$MB_ADMIN_PASSWORD \
+          --set bahmni-metabase.secrets.OPENMRS_DB_HOST=$RDS_HOST \
+          --set bahmni-metabase.secrets.OPENMRS_DB_USERNAME=$OPENMRS_DB_USERNAME \
+          --set bahmni-metabase.secrets.OPENMRS_DB_PASSWORD=$OPENMRS_DB_PASSWORD \
+          --set bahmni-metabase.secrets.MB_DB_USER=$MB_DB_USER \
+          --set bahmni-metabase.secrets.MB_DB_PASS=$MB_DB_PASS \
           --values=values/${{ env.ENVIRONMENT }}.yaml \
           --install \
           --namespace ${{ env.ENVIRONMENT }} --create-namespace

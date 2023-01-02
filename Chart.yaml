@@ -98,3 +98,8 @@ dependencies:
     name: abha-verification
     version: ~1.0.0-0
     condition: abha-verification.enabled
+
+  - repository: https://bahmni.github.io/helm-charts
+    name: bahmni-metabase
+    version: ~1.0.0-0
+    condition: bahmni-metabase.enabled
