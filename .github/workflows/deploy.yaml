@@ -96,6 +96,10 @@ jobs:
         run: helm dependency update
       - name: List Helm Dependencies
         run: ls charts
+      - name: Use profiling tagged image for performance env
+        if: ${{ github.event.inputs.environment == 'performance' }}
+        run: |
+          ./.github/profiling.sh
       - name: Helm Upgrade
         run: |
           helm upgrade bahmni-${{ env.ENVIRONMENT }} . \
