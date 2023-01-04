@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+
   repository_dispatch:
     types: ["bahmni-helm-publish-event","bahmniindia-helm-publish-event"]
   workflow_dispatch:
@@ -163,6 +164,14 @@ jobs:
           --set bahmni-metabase.secrets.OPENMRS_DB_PASSWORD=$OPENMRS_DB_PASSWORD \
           --set bahmni-metabase.secrets.MB_DB_USER=$MB_DB_USER \
           --set bahmni-metabase.secrets.MB_DB_PASS=$MB_DB_PASS \
+          --set bahmni-metabase.secrets.MART_DB_USERNAME=$MART_DB_USERNAME \
+          --set bahmni-metabase.secrets.MART_DB_PASSWORD=$MART_DB_PASSWORD \
+          --set bahmni-mart.secrets.OPENMRS_DB_HOST=$RDS_HOST \
+          --set bahmni-mart.secrets.OPENMRS_DB_USERNAME=$OPENMRS_DB_USERNAME \
+          --set bahmni-mart.secrets.OPENMRS_DB_PASSWORD=$OPENMRS_DB_PASSWORD \
+          --set bahmni-mart.secrets.MART_DB_USERNAME=$MART_DB_USERNAME \
+          --set bahmni-mart.secrets.MART_DB_PASSWORD=$MART_DB_PASSWORD \
+          --set bahmni-mart.config.OPENMRS_DB_NAME=openmrs_${{ env.ENVIRONMENT }} \
           --values=values/${{ env.ENVIRONMENT }}.yaml \
           --install \
           --namespace ${{ env.ENVIRONMENT }} --create-namespace

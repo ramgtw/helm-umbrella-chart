@@ -103,3 +103,8 @@ dependencies:
     name: bahmni-metabase
     version: ~1.0.0-0
     condition: bahmni-metabase.enabled
+    
+  - repository: https://bahmni.github.io/helm-charts
+    name: bahmni-mart
+    version: ~1.0.0-0
+    condition: bahmni-mart.enabled

@@ -112,7 +112,15 @@ bahmni-metabase:
     MB_DB_TYPE: postgres
     MB_DB_DBNAME: 'metabase'
     MB_DB_PORT:  5432
-    OPENMRS_DB_TYPE: 'mysql'
+    MART_DB_NAME: martdb
   secrets:
     MB_ADMIN_FIRST_NAME: 'Admin'
     MB_DB_HOST: 'bahmni-dev-postgresql'
+    MART_DB_HOST: 'bahmni-dev-postgresql'
+
+bahmni-mart:
+  enabled: true
+  config:
+    MART_DB_NAME: martdb
+  secrets:
+    MART_DB_HOST: "bahmni-dev-postgresql"
