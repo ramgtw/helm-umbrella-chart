@@ -199,6 +199,7 @@ spec:
 
 ---
 
+{{- if index .Values "bahmni-metabase" "enabled" }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -214,7 +215,6 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          {{- if index .Values "bahmni-metabase" "enabled" }}
           - path: /metabase/?(.*)
             pathType: Prefix
             backend:
@@ -222,4 +222,4 @@ spec:
                 name: bahmni-metabase
                 port:
                   number: 3000
-          {{- end }}
+{{- end }}
