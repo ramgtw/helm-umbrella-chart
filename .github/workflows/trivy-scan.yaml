@@ -104,7 +104,7 @@ jobs:
         run: mkdir reports
 
       - name: Run Trivy Detailed Scan for Critical Vulnerabilities
-        run: trivy k8s --severity CRITICAL --report=all --namespace ${{ matrix.namespaces }} --timeout=1h all -o reports/critical-vulnerabilities.txt
+        run: trivy k8s --no-progress --severity CRITICAL --report=all --namespace ${{ matrix.namespaces }} --timeout=1h all -o reports/critical-vulnerabilities.txt
       - name: Run Trivy Detailed Scan for High Vulnerabilities
         run: trivy k8s --no-progress --severity HIGH --report=all --namespace ${{ matrix.namespaces }} --timeout=1h all -o reports/high-vulnerabilities.txt
       - name: Run Trivy Detailed Scan for Medium Vulnerabilities
