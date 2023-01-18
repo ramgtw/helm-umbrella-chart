@@ -32,7 +32,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.BAHMNI_AWS_SECRET }}
           aws-region: ${{ secrets.BAHMNI_AWS_REGION }}
           role-to-assume: ${{ secrets.BAHMNI_INFRA_ADMIN_ROLE }}
-          role-duration-seconds: 900 # 15 mins
+          role-duration-seconds: 3600 # 15 mins
           role-session-name: BahmniInfraAdminSession
       - name: Authorise Kubectl with EKS
         run: aws eks update-kubeconfig --name $CLUSTER_NAME
@@ -62,7 +62,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.BAHMNI_AWS_SECRET }}
           aws-region: ${{ secrets.BAHMNI_AWS_REGION }}
           role-to-assume: ${{ secrets.BAHMNI_INFRA_ADMIN_ROLE }}
-          role-duration-seconds: 900 # 15 mins
+          role-duration-seconds: 3600 # 15 mins
           role-session-name: BahmniInfraAdminSession
       - name: Authorise Kubectl with EKS
         run: aws eks update-kubeconfig --name $CLUSTER_NAME
@@ -95,7 +95,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.BAHMNI_AWS_SECRET }}
           aws-region: ${{ secrets.BAHMNI_AWS_REGION }}
           role-to-assume: ${{ secrets.BAHMNI_INFRA_ADMIN_ROLE }}
-          role-duration-seconds: 900 # 15 mins
+          role-duration-seconds: 3600 # 15 mins
           role-session-name: BahmniInfraAdminSession
       - name: Authorise Kubectl with EKS
         run: aws eks update-kubeconfig --name $CLUSTER_NAME
