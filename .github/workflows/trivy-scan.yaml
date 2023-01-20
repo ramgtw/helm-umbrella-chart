@@ -22,8 +22,8 @@ jobs:
     steps:
       - name: Setup Trivy
         run: |
-          wget https://github.com/aquasecurity/trivy/releases/download/v0.36.1/trivy_0.36.1_Linux-64bit.deb
-          sudo dpkg -i trivy_0.36.1_Linux-64bit.deb
+          wget https://github.com/aquasecurity/trivy/releases/download/v0.31.3/trivy_0.31.3_Linux-64bit.deb
+          sudo dpkg -i trivy_0.31.3_Linux-64bit.deb
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -32,7 +32,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.BAHMNI_AWS_SECRET }}
           aws-region: ${{ secrets.BAHMNI_AWS_REGION }}
           role-to-assume: ${{ secrets.BAHMNI_INFRA_ADMIN_ROLE }}
-          role-duration-seconds: 3600 # 15 mins
+          role-duration-seconds: 900 # 15 mins
           role-session-name: BahmniInfraAdminSession
       - name: Authorise Kubectl with EKS
         run: aws eks update-kubeconfig --name $CLUSTER_NAME
@@ -62,7 +62,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.BAHMNI_AWS_SECRET }}
           aws-region: ${{ secrets.BAHMNI_AWS_REGION }}
           role-to-assume: ${{ secrets.BAHMNI_INFRA_ADMIN_ROLE }}
-          role-duration-seconds: 3600 # 15 mins
+          role-duration-seconds: 900 # 15 mins
           role-session-name: BahmniInfraAdminSession
       - name: Authorise Kubectl with EKS
         run: aws eks update-kubeconfig --name $CLUSTER_NAME
@@ -85,9 +85,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup Trivy
         run: |
-          wget https://github.com/aquasecurity/trivy/releases/download/v0.36.1/trivy_0.36.1_Linux-64bit.deb
-          sudo dpkg -i trivy_0.36.1_Linux-64bit.deb
-
+          wget https://github.com/aquasecurity/trivy/releases/download/v0.31.3/trivy_0.31.3_Linux-64bit.deb
+          sudo dpkg -i trivy_0.31.3_Linux-64bit.deb
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -95,7 +94,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.BAHMNI_AWS_SECRET }}
           aws-region: ${{ secrets.BAHMNI_AWS_REGION }}
           role-to-assume: ${{ secrets.BAHMNI_INFRA_ADMIN_ROLE }}
-          role-duration-seconds: 3600 # 15 mins
+          role-duration-seconds: 900 # 15 mins
           role-session-name: BahmniInfraAdminSession
       - name: Authorise Kubectl with EKS
         run: aws eks update-kubeconfig --name $CLUSTER_NAME
@@ -130,10 +129,11 @@ jobs:
     name: Upload Report
     needs: [ trivy-namespace-scan, trivy-cluster-summary-scan ]
     steps:
-      - name: Checkout reports branch
-        uses: actions/checkout@v2
+      - name: Checkout security-private repo
+        uses: actions/checkout@v3
         with:
-          ref: gh-pages
+          repository: BahmniIndiaDistro/security-private
+          token: ${{ secrets.BAHMNI_PAT }}
       - name: Download Reports
         uses: actions/download-artifact@v3
         with:
@@ -154,11 +154,11 @@ jobs:
     needs: upload-report
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout reports branch
-        uses: actions/checkout@v2
+      - name: Checkout security-private repo
+        uses: actions/checkout@v3
         with:
-          ref: gh-pages
-      
+          repository: BahmniIndiaDistro/security-private
+          token: ${{ secrets.BAHMNI_PAT }}     
       - name: Download Cluster Summary
         uses: actions/download-artifact@v3
         with:
@@ -182,4 +182,4 @@ jobs:
     steps:
       - name: Post message
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"🔎 Trivy Security Scan completed for ${{ env.CLUSTER_NAME }}. \n> <https://bahmniindiadistro.github.io/helm-umbrella-chart/trivy-reports/|View Report>"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"🔎 Trivy Security Scan completed for ${{ env.CLUSTER_NAME }}. \n> <https://github.com/BahmniIndiaDistro/security-private/|View Report [Private Repository]>"}' ${{ secrets.SLACK_WEBHOOK_URL }}
