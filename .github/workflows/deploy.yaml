@@ -100,8 +100,8 @@ jobs:
         run: helm dependency update
       - name: List Helm Dependencies
         run: ls charts
-      - name: Use profiling tagged image for performance env
-        if: ${{ github.event.inputs.environment == 'performance' }}
+      - name: Use profiling tagged image for dev env
+        if: ${{ github.event.inputs.environment == 'dev' }}
         run: |
           ./.github/profiling.sh
       - name: Helm Upgrade
