@@ -159,7 +159,7 @@ abha-verification:
       environment: qa
 
 bahmni-metabase:
-  enabled: false
+  enabled: true
   config:
     MB_DB_TYPE: postgres
     MB_DB_DBNAME: 'metabase'
@@ -171,7 +171,7 @@ bahmni-metabase:
     MART_DB_HOST: 'bahmni-qa-postgresql'
 
 bahmni-mart:
-  enabled: false
+  enabled: true
   config:
     MART_DB_NAME: martdb
   secrets:
