@@ -23,6 +23,7 @@ jobs:
         run: |
           wget https://github.com/aquasecurity/trivy/releases/download/v0.31.3/trivy_0.31.3_Linux-64bit.deb
           sudo dpkg -i trivy_0.31.3_Linux-64bit.deb
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -127,10 +128,11 @@ jobs:
     name: Upload Report
     needs: [ trivy-namespace-scan, trivy-cluster-summary-scan ]
     steps:
-      - name: Checkout reports branch
-        uses: actions/checkout@v2
+      - name: Checkout security-private repo
+        uses: actions/checkout@v3
         with:
-          ref: gh-pages
+          repository: BahmniIndiaDistro/security-private
+          token: ${{ secrets.BAHMNI_PAT }}
       - name: Download Reports
         uses: actions/download-artifact@v3
         with:
@@ -151,11 +153,11 @@ jobs:
     needs: upload-report
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout reports branch
-        uses: actions/checkout@v2
+      - name: Checkout security-private repo
+        uses: actions/checkout@v3
         with:
-          ref: gh-pages
-      
+          repository: BahmniIndiaDistro/security-private
+          token: ${{ secrets.BAHMNI_PAT }}     
       - name: Download Cluster Summary
         uses: actions/download-artifact@v3
         with:
@@ -179,4 +181,4 @@ jobs:
     steps:
       - name: Post message
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"🔎 Trivy Security Scan completed for ${{ env.CLUSTER_NAME }}. \n> <https://bahmniindiadistro.github.io/helm-umbrella-chart/trivy-reports/|View Report>"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"🔎 Trivy Security Scan completed for ${{ env.CLUSTER_NAME }}. \n> <https://github.com/BahmniIndiaDistro/security-private/|View Report [Private Repository]>"}' ${{ secrets.SLACK_WEBHOOK_URL }}
