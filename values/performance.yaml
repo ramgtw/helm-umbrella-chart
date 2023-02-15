@@ -18,7 +18,7 @@ openmrs:
   image:
     tag: profiling
   config:
-    OMRS_JAVA_SERVER_OPTS: '-Dfile.encoding=UTF-8 -server  -Xms1024m -Xmx1536m -XX:NewSize=512m -XX:MaxNewSize=512m -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=1024m -XX:InitialCodeCacheSize=64m -XX:ReservedCodeCacheSize=96m -XX:SurvivorRatio=4 -XX:TargetSurvivorRatio=40 -XX:+UseParNewGC -XX:ParallelGCThreads=2 -Xloggc:/usr/local/tomcat/logs/gc.log -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:+CMSCompactWhenClearAllSoftRefs -XX:CMSInitiatingOccupancyFraction=85 -XX:+CMSScavengeBeforeRemark -XX:+UseGCOverheadLimit -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./java.hprof -XX:+UseStringDeduplication -agentpath:/etc/profiling/YourKit-JavaProfiler-2022.9/bin/linux-x86-64/libyjpagent.so=port=10001,listen=all -javaagent:/etc/jvm_metrics/jmx_prometheus_javaagent.jar=8280:/etc/jvm_metrics/config.yml'
+    OMRS_JAVA_SERVER_OPTS: '-Dfile.encoding=UTF-8 -server  -Xms1024m -Xmx2560m -XX:NewSize=512m -XX:MaxNewSize=512m -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=1024m -XX:InitialCodeCacheSize=64m -XX:ReservedCodeCacheSize=96m -XX:SurvivorRatio=4 -XX:TargetSurvivorRatio=40 -XX:+UseParNewGC -XX:ParallelGCThreads=2 -Xloggc:/usr/local/tomcat/logs/gc.log -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:+CMSCompactWhenClearAllSoftRefs -XX:CMSInitiatingOccupancyFraction=85 -XX:+CMSScavengeBeforeRemark -XX:+UseGCOverheadLimit -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./java.hprof -XX:+UseStringDeduplication -agentpath:/etc/profiling/YourKit-JavaProfiler-2022.9/bin/linux-x86-64/libyjpagent.so=port=10001,listen=all -javaagent:/etc/jvm_metrics/jmx_prometheus_javaagent.jar=8280:/etc/jvm_metrics/config.yml'
     OMRS_JAVA_MEMORY_OPTS: '-XX:NewSize=512m'
 bahmni-web:
   enabled: true
