@@ -34,7 +34,11 @@
         "arn:aws:ssm:ap-south-1:{YourAccountNumber}:parameter/nonprod/efs/file_system_id",
         "arn:aws:ssm:ap-south-1:{YourAccountNumber}:parameter/nonprod/psql/DB_PASSWORD",
         "arn:aws:ssm:ap-south-1:{YourAccountNumber}:parameter/nonprod/rds/mysql/host",
-        "arn:aws:ssm:ap-south-1:{YourAccountNumber}:parameter/nonprod/rabbitmq/*"
+        "arn:aws:ssm:ap-south-1:{YourAccountNumber}:parameter/nonprod/rabbitmq/*",
+        "arn:aws:ssm:ap-south-1:{YourAccountNumber}:parameter/qa/crater_atomfeed/*",
+        "arn:aws:ssm:ap-south-1:{YourAccountNumber}:parameter/dev/crater_atomfeed/*",
+        "arn:aws:ssm:ap-south-1:{YourAccountNumber}:parameter/demo/crater_atomfeed/*",
+        "arn:aws:ssm:ap-south-1:{YourAccountNumber}:parameter/performance/crater_atomfeed/*"
       ]
 
     }
